@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ademir Pasalic — Pipeline TD</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #12121e;
+    --bg-card-hover: #181828;
+    --accent: #00e5a0;
+    --accent-dim: #00e5a020;
+    --accent-mid: #00e5a060;
+    --text-primary: #e0e0e8;
+    --text-secondary: #7a7a8e;
+    --text-muted: #4a4a5e;
+    --border: #1e1e30;
+    --border-hover: #2a2a40;
+    --terminal-green: #00e5a0;
+    --error-red: #ff4060;
+    --warn-yellow: #ffc040;
+    --info-blue: #40a0ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-dim) var(--bg-primary);
+  }
+
+  body {
+    font-family: 'IBM Plex Mono', monospace;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  /* ── Scanline overlay ── */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* ── Grid background ── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--text-muted); }
+
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+  }
+  .nav-links a:hover {
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-mid); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '//';
+    color: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2.5rem;
+  }
+  .section-title .hl { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 60px;
+  }
+
+  .hero-pretitle {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+  .hero-name .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.9em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: baseline;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-role {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease forwards 0.6s;
+  }
+  .hero-role strong { color: var(--text-primary); font-weight: 500; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease forwards 0.8s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.7rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-dim);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .hero-terminal {
+    margin-top: 3rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    max-width: 600px;
+    animation: fadeUp 0.6s ease forwards 1s;
+  }
+
+  .terminal-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+  .terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot.r { background: var(--error-red); }
+  .terminal-dot.y { background: var(--warn-yellow); }
+  .terminal-dot.g { background: var(--accent); }
+
+  .terminal-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .terminal-line .prompt { color: var(--accent); }
+  .terminal-line .cmd { color: var(--text-primary); }
+  .terminal-line .flag { color: var(--info-blue); }
+  .terminal-line .str { color: var(--warn-yellow); }
+  .terminal-line .comment { color: var(--text-muted); font-style: italic; }
+
+  @keyframes fadeUp {
+    from { transform: translateY(20px); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+  }
+  .profile-photo:hover {
+    border-color: var(--accent);
+  }
+
+  .about-header-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  .about-header-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .about-header-role {
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-top: 0.2rem;
+  }
+  .about-header-location {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .about-text p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin-bottom: 1.25rem;
+  }
+  .about-text a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-dim);
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    transition: all 0.3s;
+  }
+  .stat-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px var(--accent-dim);
+    transform: translateY(-2px);
+  }
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+  }
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-type {
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-desc {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  .project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    transition: color 0.2s;
+  }
+  .project-card:hover .project-link { color: var(--accent); }
+
+  .show-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .show-more-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.03em;
+  }
+  .show-more-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-dim);
+  }
+  .project-card.hidden-card {
+    display: none;
+  }
+
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.35rem 0.85rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ── SKILLS ── */
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .skill-group:hover {
+    border-color: var(--border-hover);
+  }
+
+  .skill-group-title {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-chip {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .skill-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .skill-chip.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .contact-text p {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+  .contact-link-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .contact-link-value {
+    margin-top: 0.15rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .nav-status { display: none; }
+    .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.7rem; }
+    section { padding: 4rem 1.25rem; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="nav-logo" style="cursor:pointer;">~/ademir_pasalic <span>$</span></a>
+    <ul class="nav-links">
+      <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">about</a></li>
+      <li><a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">projects</a></li>
+      <li><a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">skills</a></li>
+      <li><a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">contact</a></li>
+    </ul>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      open to opportunities
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-pretitle">$ whoami</div>
+  <h1 class="hero-name">Ademir Pasalic<span class="cursor"></span></h1>
+  <p class="hero-role">
+    <strong>Pipeline TD &amp; Technical Artist</strong> with 7+ years bridging technology, creative, and production teams. Building tools for game engines, asset/pipeline automation, and validation workflows for AAA studios and entertainment brands.
+  </p>
+  <div class="hero-cta">
+    <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" class="btn btn-primary">→ View Projects</a>
+    <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn">Get In Touch</a>
+  </div>
+
+  <div class="hero-terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot r"></div>
+      <div class="terminal-dot y"></div>
+      <div class="terminal-dot g"></div>
+    </div>
+    <div class="terminal-line"><span class="prompt">❯</span> <span class="cmd">python</span> <span class="flag">-c</span> <span class="str">"import pipeline; pipeline.run()"</span></div>
+    <div class="terminal-line"><span class="comment"># Validating asset hierarchy...</span></div>
+    <div class="terminal-line"><span class="comment"># Publishing to downstream departments...</span></div>
+    <div class="terminal-line"><span class="prompt">✓</span> <span class="str">Pipeline executed successfully.</span></div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About</div>
+    <h2 class="section-title">def <span class="hl">about_me</span>():</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <div class="about-header">
+          <img src="data:image/jpeg;base64,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" alt="Ademir Pasalic" class="profile-photo">
+          <div class="about-header-text">
+            <div class="about-header-name">Ademir Pasalic</div>
+            <div class="about-header-role">Lead Pipeline TD @ Sun Creature</div>
+            <div class="about-header-location">Copenhagen, Denmark</div>
+          </div>
+        </div>
+        <p>
+          I'm a Lead Pipeline Technical Director at <a href="https://suncreature.com">Sun Creature</a> in Copenhagen, with 7+ years of experience bridging technology, creative, and production teams to deliver high-profile, engine-based projects for AAA studios and entertainment brands.
+        </p>
+        <p>
+          I build tools for game engines and proprietary systems, asset/pipeline automation, and validation workflows that help art and production teams deliver high-quality content within performance budgets. I've developed integrations across 10+ DCCs and services — including Maya, Adobe CC, ToonBoom, TVPaint, Fusion, Flow (ShotGrid), and more.
+        </p>
+        <p>
+          Known for removing blockers, owning initiatives end-to-end, and collaborating closely with artists, programmers, and managers. I've shipped work for clients including Netflix, Blizzard, Disney, Riot Games, Supercell, EA, Lego, and more.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-number">7+</div>
+          <div class="stat-label">Years in Production</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">45</div>
+          <div class="stat-label">Shipped Projects</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">15+</div>
+          <div class="stat-label">Major Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">10+</div>
+          <div class="stat-label">DCC Integrations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">ls <span class="hl">~/projects</span></h2>
+
+    <div class="project-filters">
+      <button class="filter-btn active" onclick="filterProjects('all')">All</button>
+      <button class="filter-btn" onclick="filterProjects('supercell')">Supercell</button>
+      <button class="filter-btn" onclick="filterProjects('ea')">EA / Respawn</button>
+      <button class="filter-btn" onclick="filterProjects('blizzard')">Blizzard</button>
+      <button class="filter-btn" onclick="filterProjects('riot')">Riot Games</button>
+      <button class="filter-btn" onclick="filterProjects('2k')">2K Games</button>
+      <button class="filter-btn" onclick="filterProjects('hoyoverse')">HoYoverse</button>
+      <button class="filter-btn" onclick="filterProjects('mojang')">Mojang</button>
+      <button class="filter-btn" onclick="filterProjects('lego')">Lego</button>
+      <button class="filter-btn" onclick="filterProjects('netflix')">Netflix</button>
+      <button class="filter-btn" onclick="filterProjects('disney')">Disney</button>
+      <button class="filter-btn" onclick="filterProjects('cartoonnetwork')">Cartoon Network</button>
+      <button class="filter-btn" onclick="filterProjects('moonbug')">Moonbug</button>
+      <button class="filter-btn" onclick="filterProjects('41shadows')">41Shadows</button>
+    </div>
+
+    <div class="projects-grid">
+
+      <a href="https://www.youtube.com/watch?v=K9n3JVi1Vxk" target="_blank" class="project-card" data-client="blizzard">
+        
+        <div class="project-type">Blizzard · April 2025</div>
+        <div class="project-title">Diablo IV x Berserk — Animated Trailer</div>
+        <div class="project-desc">Lead Pipeline TD on the animated crossover trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Diablo IV</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=IgY1YrAHYBI" target="_blank" class="project-card" data-client="blizzard">
+        
+        <div class="project-type">Blizzard · August 2024</div>
+        <div class="project-title">Alleria: Light and Shadow | World of Warcraft</div>
+        <div class="project-desc">Lead Pipeline TD on the animated short for The War Within.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">WoW</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=zeVwKk7_XHs" target="_blank" class="project-card" data-client="ea">
+        
+        <div class="project-type">EA / Respawn · April 2025</div>
+        <div class="project-title">Apex Legends: Prodigy Anthem Trailer</div>
+        <div class="project-desc">Lead Pipeline TD on the animated anthem trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=3WZ5DNIzc_o" target="_blank" class="project-card" data-client="ea">
+        
+        <div class="project-type">EA / Respawn · January 2025</div>
+        <div class="project-title">Apex Legends: Takeover Anthem Trailer</div>
+        <div class="project-desc">Lead Pipeline TD on the Takeover season trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=9-kNd1_xG9Q" target="_blank" class="project-card" data-client="ea">
+        
+        <div class="project-type">EA / Respawn · November 2024</div>
+        <div class="project-title">Apex Legends: From the Rift Launch Trailer</div>
+        <div class="project-desc">Lead Pipeline TD on the From the Rift launch trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=hDTorbKavfI" target="_blank" class="project-card" data-client="ea">
+        
+        <div class="project-type">EA / Respawn · May 2024</div>
+        <div class="project-title">Alter | Based on a True Story</div>
+        <div class="project-desc">Lead Pipeline TD on the Apex Legends animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=9fU4PlGIaWU" target="_blank" class="project-card" data-client="ea">
+        
+        <div class="project-type">EA / Respawn · October 2023</div>
+        <div class="project-title">Apex Legends: Stories from the Outlands</div>
+        <div class="project-desc">Technical Director on "For Us, Utang na Loob".</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Apex</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=6E7yKwSU2gs" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · June 2025</div>
+        <div class="project-title">Alli is watching you! | Brawl Stars</div>
+        <div class="project-desc">Lead Pipeline TD on Brawl Stars animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=WZtEDwLPyRM" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · April 2025</div>
+        <div class="project-title">New Champion: Boss Bandit! | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on champion reveal trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=otQ6kAZJXcY" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-title">A day in Hay Day</div>
+        <div class="project-desc">Lead Pipeline TD on Hay Day animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Hay Day</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=xRz9DFJQ_j4" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-title">GOOD RANDOMS — My Only Trophy | Brawl Stars</div>
+        <div class="project-desc">Lead Pipeline TD on the official music video.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=DPPcV0-0QWs" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · January 2025</div>
+        <div class="project-title">New Card: Rune Giant! | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on new card reveal.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=BqPNB9Vxl_w" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · October 2024</div>
+        <div class="project-title">JUJU HAS IT ALL! | Brawl Stars</div>
+        <div class="project-desc">Lead Pipeline TD on Brawl Stars animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=Z38nR1BY1dA" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · September 2024</div>
+        <div class="project-title">SpongeBob, Brawl Stars, and... JOHN CENA?!</div>
+        <div class="project-desc">Lead Pipeline TD on the crossover short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=RJw3Y-3EBFo" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · August 2024</div>
+        <div class="project-title">PAINT BRAWL STARTS NOW! | Brawl Stars</div>
+        <div class="project-desc">Lead Pipeline TD on Brawl Stars animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=_VnqcBnWM0k" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">Goblin Queen's Takeover | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on Clash Royale update trailer.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=gghKJQOhE2M" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-title">DAGGER DUCHESS | Clash Royale (Music Video)</div>
+        <div class="project-desc">Lead Pipeline TD on Tower Troop music video.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=6sXPQy7CdeE" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · January 2024</div>
+        <div class="project-title">EXPLOSIVE EVOLUTIONS | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on evolution short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=sCxWGlIwZ2k" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-title">New TOWER TROOP Reveal! | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on Tower Troop reveal.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=T16T-odokVk" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · August 2023</div>
+        <div class="project-title">Charging up to the Max! | Brawl Stars</div>
+        <div class="project-desc">Technical Director on Brawl Stars animated short.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=u8p7QNz5M7M" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · June 2023</div>
+        <div class="project-title">The Legends of Olympus | Brawl Stars</div>
+        <div class="project-desc">Technical Director on Brawl Stars animated short.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=AQ99iVo_QC4" target="_blank" class="project-card" data-client="supercell">
+        
+        <div class="project-type">Supercell · December 2022</div>
+        <div class="project-title">Santa Hog Rider's Workshop | Clashmas</div>
+        <div class="project-desc">Technical Director on Clash Royale holiday special.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=nEFcbKF4WfY" target="_blank" class="project-card" data-client="riot">
+        
+        <div class="project-type">Riot Games · June 2022</div>
+        <div class="project-title">Star Guardian 2022 | League of Legends</div>
+        <div class="project-desc">Technical Director on "Return to Valoran City" event teaser.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">LoL</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=kAr0IfSMe1w" target="_blank" class="project-card" data-client="riot">
+        
+        <div class="project-type">Riot Games · February 2022</div>
+        <div class="project-title">A Curious Journey | Legends of Runeterra</div>
+        <div class="project-desc">Technical Director on expansion trailer.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">LoR</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=IoSTm4jwGEo" target="_blank" class="project-card" data-client="riot">
+        
+        <div class="project-type">Riot Games · November 2021</div>
+        <div class="project-title">Magic Misadventures | Legends of Runeterra</div>
+        <div class="project-desc">Technical Director on expansion trailer.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">LoR</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=h3YIKmjFpoo" target="_blank" class="project-card" data-client="riot">
+        
+        <div class="project-type">Riot Games · August 2021</div>
+        <div class="project-title">Beyond the Bandlewood | Legends of Runeterra</div>
+        <div class="project-desc">Technical Director on cinematic expansion trailer.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">LoR</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=SdROhbPZyeE" target="_blank" class="project-card" data-client="2k">
+        
+        <div class="project-type">2K Games · October 2022</div>
+        <div class="project-title">The Salem Sisters | Marvel's Midnight Suns</div>
+        <div class="project-desc">Technical Director on the prequel shorts.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=k9IPmCKu7qI" target="_blank" class="project-card" data-client="2k">
+        
+        <div class="project-type">2K Games · September 2022</div>
+        <div class="project-title">Marvel's Midnight Suns | Intro Teaser</div>
+        <div class="project-desc">Technical Director on the prequel shorts intro teaser.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=gJe8sAMb3bE" target="_blank" class="project-card" data-client="hoyoverse">
+        
+        <div class="project-type">HoYoverse · June 2023</div>
+        <div class="project-title">Scenery and Sentiment: Liyue | Genshin Impact</div>
+        <div class="project-desc">Technical Director on the Liyue animated short.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=_XwlRU2lrPM" target="_blank" class="project-card" data-client="hoyoverse">
+        
+        <div class="project-type">HoYoverse · October 2022</div>
+        <div class="project-title">Scenery and Sentiment: Mondstadt | Genshin Impact</div>
+        <div class="project-desc">Technical Director on the Mondstadt animated short.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=ESb3ad-1lJE" target="_blank" class="project-card" data-client="mojang">
+        
+        <div class="project-type">Mojang Studios · September 2023</div>
+        <div class="project-title">Minecraft LoFi: Laid back lutes</div>
+        <div class="project-desc">Lead Pipeline TD on the animated music video.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Minecraft</span></div>
+      </a>
+
+
+      <a href="https://www.youtube.com/watch?v=EbIxh8Nq9zU" target="_blank" class="project-card" data-client="lego">
+        
+        <div class="project-type">Lego · June 2025</div>
+        <div class="project-title">NINJAGO Legends: Monstrosity</div>
+        <div class="project-desc">Lead Pipeline TD on NINJAGO Legends animated episodes.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">NINJAGO</span></div>
+      </a>
+
+      <a href="https://youtu.be/gdVrikMkoNY" target="_blank" class="project-card" data-client="netflix">
+        <div class="project-type">Netflix · Series · 2025</div>
+        <div class="project-title">Splinter Cell: Deathwatch S1</div>
+        <div class="project-desc">Lead Pipeline TD on the full first season of Netflix's animated Splinter Cell series.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Netflix</span></div>
+      </a>
+
+      <a href="https://www.imdb.com/video/vi1019528985/" target="_blank" class="project-card" data-client="netflix">
+        <div class="project-type">Netflix · Series · 2023</div>
+        <div class="project-title">Blue Eye Samurai — S1.E6 / S1.E7 / S1.E8</div>
+        <div class="project-desc">Technical Director on three episodes of the critically acclaimed animated series.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Netflix</span></div>
+      </a>
+
+      <a href="https://www.imdb.com/video/vi756597273/" target="_blank" class="project-card" data-client="cartoonnetwork">
+        <div class="project-type">Cartoon Network · Series · 2022–2024</div>
+        <div class="project-title">The Heroic Quest of the Valiant Prince Ivandoe</div>
+        <div class="project-desc">Lead Pipeline TD &amp; Technical Director on the animated series.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Cartoon Network</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=fQGf_nJ1E9w" target="_blank" class="project-card" data-client="disney">
+        <div class="project-type">Disney · Feature · 2024</div>
+        <div class="project-title">Elton John: Never Too Late</div>
+        <div class="project-desc">Lead Pipeline TD on animated sequences in the Disney documentary feature.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Disney</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=FTYW8NHAkmE" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">BIG BOI GREEN | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on card evolution short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=OoUIFQUvYKw" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">The Goblin Queen's Update | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on update reveal short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=qY2AgKzldW8" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · July 2024</div>
+        <div class="project-title">New Card Reveal | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on new card teaser.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=Gx_eiHFLhAE" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-title">Goblins organised our bday party... | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on birthday short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=vsCeWFs3Qh0" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · January 2024</div>
+        <div class="project-title">Animation vs Gameplay — Valk Edition | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on animated short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=q1r8aoFrla8" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-title">Are You Naughty or Nice?! | Clash Royale</div>
+        <div class="project-desc">Lead Pipeline TD on holiday short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </a>
+
+      <a href="https://www.instagram.com/brawlstars/" target="_blank" class="project-card" data-client="supercell">
+        <div class="project-type">Supercell · 2021–2023</div>
+        <div class="project-title">Brawl Stars Social Media</div>
+        <div class="project-desc">Technical Director on background art and social media content.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=54uywpVJF3o" target="_blank" class="project-card" data-client="moonbug">
+        <div class="project-type">Moonbug · Series · 2020</div>
+        <div class="project-title">Mia's Magic Playground — S1</div>
+        <div class="project-desc">Technical Director on the first season (12 episodes) for Viaplay/Moonbug.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Series</span></div>
+      </a>
+
+      <a href="https://www.youtube.com/watch?v=luuf2JPK2rE" target="_blank" class="project-card" data-client="41shadows">
+        <div class="project-type">41Shadows · Feature · 2019</div>
+        <div class="project-title">Kaptajn Bimse</div>
+        <div class="project-desc">Unity Technical Consultant — set up HD Render Pipeline for 1,200+ VFX shots.</div>
+        <div class="project-tags"><span class="tag">Unity Tech Consultant</span><span class="tag">Feature</span></div>
+      </a>
+
+    </div>
+    <div class="show-more-wrap">
+      <button class="show-more-btn" onclick="toggleProjects()">↓ Show all projects (30+)</button>
+    </div>
+  </div>
+</section>
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">Resume & Skills</div>
+    <h2 class="section-title">cat <span class="hl">skills.json</span></h2>
+    <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:0.7rem;">
+      <div style="display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent-dim);border:1px solid var(--accent);"></span><span style="color:var(--text-secondary);">Core strength</span></div>
+      <div style="display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bg-secondary);border:1px solid var(--border);"></span><span style="color:var(--text-muted);">Experienced</span></div>
+    </div>
+    <div class="skills-container">
+
+      <div class="skill-group">
+        <div class="skill-group-title">Languages & Scripting</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Python</span>
+          <span class="skill-chip primary">C#</span>
+          <span class="skill-chip primary">PyQt / PySide</span>
+          <span class="skill-chip primary">YAML</span>
+          <span class="skill-chip primary">JSON</span>
+          <span class="skill-chip">XML</span>
+          <span class="skill-chip">PowerShell</span>
+          <span class="skill-chip">Bash</span>
+          <span class="skill-chip">MEL</span>
+          <span class="skill-chip">JavaScript</span>
+          <span class="skill-chip">TypeScript</span>
+          <span class="skill-chip">HTML / CSS</span>
+          <span class="skill-chip">SQL</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Engines & DCCs</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Unreal Engine</span>
+          <span class="skill-chip primary">Unity</span>
+          <span class="skill-chip primary">Maya</span>
+          <span class="skill-chip primary">TVPaint</span>
+          <span class="skill-chip primary">Adobe CC</span>
+          <span class="skill-chip">Blender</span>
+          <span class="skill-chip">ToonBoom</span>
+          <span class="skill-chip">DaVinci Resolve</span>
+          <span class="skill-chip">Blackmagic Fusion</span>
+          <span class="skill-chip">Rokoko Studio</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Pipeline & DevOps</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Git / Git LFS</span>
+          <span class="skill-chip primary">Docker</span>
+          <span class="skill-chip primary">CI/CD</span>
+          <span class="skill-chip primary">Data Automation</span>
+          <span class="skill-chip">Linux (Ubuntu)</span>
+          <span class="skill-chip">Perforce</span>
+          <span class="skill-chip">Build Validation</span>
+          <span class="skill-chip">REST APIs</span>
+          <span class="skill-chip">System Integration</span>
+          <span class="skill-chip">Virtual Machines</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Production & Tracking</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Flow (ShotGrid)</span>
+          <span class="skill-chip primary">Coda</span>
+          <span class="skill-chip primary">Google Workspace</span>
+          <span class="skill-chip primary">Microsoft 365</span>
+          <span class="skill-chip primary">Pipeline Management</span>
+          <span class="skill-chip">SyncSketch</span>
+          <span class="skill-chip">Sprint Planning</span>
+          <span class="skill-chip">Defect Tracking</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Leadership & Communication</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Cross-team Coordination</span>
+          <span class="skill-chip primary">Stakeholder Management</span>
+          <span class="skill-chip primary">Technical Documentation</span>
+          <span class="skill-chip primary">Strategic Planning</span>
+          <span class="skill-chip">Onboarding</span>
+          <span class="skill-chip">Risk Mitigation</span>
+          <span class="skill-chip">Conflict Resolution</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Spoken Languages</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Danish — Fluent</span>
+          <span class="skill-chip primary">English — Fluent</span>
+          <span class="skill-chip">Bosnian — Advanced</span>
+          <span class="skill-chip">German — Beginner</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">ssh <span class="hl">connect@me</span></h2>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-text">
+          <p>Interested in collaborating, have a pipeline challenge, or just want to talk about animation production and Python? I'd love to hear from you. I'm open to new opportunities in Animation, Film, TV, and game development.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:ademir.p@outlook.dk" class="contact-link">
+            <div>
+              <div class="contact-link-label">Email</div>
+              <div class="contact-link-value">ademir.p@outlook.dk</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/ademir-pasalic/" class="contact-link">
+            <div>
+              <div class="contact-link-label">LinkedIn</div>
+              <div class="contact-link-value">linkedin.com/in/ademir-pasalic</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form" id="contact-form-wrap">
+        <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" id="contact-form">
+          <!-- To activate: go to formspree.io, sign up free, create a form, replace YOUR_FORM_ID above -->
+          <input type="hidden" name="_subject" id="form-subject">
+          <div class="form-group">
+            <label>NAME</label>
+            <input type="text" name="name" id="contact-name" placeholder="Jane Doe" required>
+          </div>
+          <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" name="_replyto" id="contact-email" placeholder="jane@studio.com" required>
+          </div>
+          <div class="form-group">
+            <label>MESSAGE</label>
+            <textarea name="message" id="contact-message" placeholder="Hey, I've got a pipeline problem..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">→ Send Message</button>
+        </form>
+        <div id="form-success" style="display:none;padding:2rem 0;text-align:center;">
+          <div style="font-family:'JetBrains Mono','Courier New',monospace;color:var(--accent);font-size:1.1rem;margin-bottom:0.5rem;">✓ Message sent!</div>
+          <div style="color:var(--text-secondary);font-size:0.85rem;">Thanks for reaching out. I'll get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 Ademir Pasalic. Built with caffeine & Python.</span>
+  <span>
+    <a href="mailto:ademir.p@outlook.dk">Email</a> · <a href="https://www.linkedin.com/in/ademir-pasalic/">LinkedIn</a>
+  </span>
+</footer>
+
+
+<script>
+  var expanded = false;
+  var INITIAL_COUNT = 3;
+
+  function filterProjects(client) {
+    var cards = document.querySelectorAll('.project-card');
+    var btns = document.querySelectorAll('.filter-btn');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+    event.target.classList.add('active');
+    expanded = false;
+    for (var i = 0; i < cards.length; i++) {
+      if (client === 'all' || cards[i].dataset.client === client) {
+        delete cards[i].dataset.filteredOut;
+      } else {
+        cards[i].dataset.filteredOut = 'true';
+      }
+    }
+    applyVisibility();
+  }
+
+  function applyVisibility() {
+    var cards = document.querySelectorAll('.project-card');
+    var btn = document.querySelector('.show-more-btn');
+    var visibleIdx = 0;
+    var totalMatching = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (!card.dataset.filteredOut) {
+        totalMatching++;
+        if (expanded || visibleIdx < INITIAL_COUNT) {
+          card.style.display = '';
+          visibleIdx++;
+        } else {
+          card.style.display = 'none';
+        }
+      } else {
+        card.style.display = 'none';
+      }
+    }
+    if (totalMatching <= INITIAL_COUNT) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+      btn.textContent = expanded ? '\u2191 Show less' : '\u2193 Show all projects (' + totalMatching + ')';
+    }
+  }
+
+  function toggleProjects() {
+    expanded = !expanded;
+    applyVisibility();
+    if (!expanded) document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+  }
+
+  // Contact form via Formspree
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('contact-name').value;
+      var email = document.getElementById('contact-email').value;
+      var message = document.getElementById('contact-message').value;
+      var subject = 'Connect ' + name;
+      document.getElementById('form-subject').value = subject;
+      var data = new FormData(contactForm);
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: data,
+        headers: {'Accept': 'application/json'}
+      }).then(function(response) {
+        if (response.ok) {
+          contactForm.style.display = 'none';
+          document.getElementById('form-success').style.display = 'block';
+        } else {
+          mailtoFallback(name, email, subject, message);
+        }
+      }).catch(function() {
+        mailtoFallback(name, email, subject, message);
+      });
+    });
+  }
+
+  function mailtoFallback(name, email, subject, message) {
+    var body = 'From: ' + name + '\nEmail: ' + email + '\n\n' + message;
+    window.location.href = 'mailto:ademir.p@outlook.dk'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  // Add watch links
+  var allCards = document.querySelectorAll('.project-card');
+  for (var i = 0; i < allCards.length; i++) {
+    if (!allCards[i].querySelector('.project-link')) {
+      var link = document.createElement('div');
+      link.className = 'project-link';
+      link.textContent = '\u25B6 Watch on YouTube';
+      allCards[i].appendChild(link);
+    }
+  }
+
+
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
+    }
+  }, {threshold: 0.1});
+  for (var i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
+
+  applyVisibility();
+</script>
+</body>
+</html>
