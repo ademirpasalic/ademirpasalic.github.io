@@ -1343,8 +1343,9 @@
         </div>
       </div>
       <div class="contact-form" id="contact-form-wrap">
-        <form action="https://formspree.io/f/mzdjzenq" method="POST" id="contact-form">
-          <input type="hidden" name="_subject" id="form-subject">
+        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+          <input type="hidden" name="access_key" value="0728dcea-001c-4611-b64c-528b73f38f22">
+          <input type="hidden" name="subject" id="form-subject">
           <div class="form-group">
             <label>NAME</label>
             <input type="text" name="name" id="contact-name" placeholder="Jane Doe" required>
@@ -1440,11 +1441,17 @@
       var message = document.getElementById('contact-message').value;
       var subject = 'Connect ' + name;
       document.getElementById('form-subject').value = subject;
-      var data = new FormData(contactForm);
-      fetch(contactForm.action, {
+      var data = JSON.stringify({
+        access_key: '0728dcea-001c-4611-b64c-528b73f38f22',
+        subject: subject,
+        name: name,
+        email: email,
+        message: message
+      });
+      fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         body: data,
-        headers: {'Accept': 'application/json'}
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}
       }).then(function(response) {
         if (response.ok) {
           contactForm.style.display = 'none';
@@ -1475,7 +1482,6 @@
       allCards[i].appendChild(link);
     }
   }
-
 
 
   var reveals = document.querySelectorAll('.reveal');
