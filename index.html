@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
 <title>Ademir Pasalic — Pipeline TD</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -26,6 +27,8 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { color-scheme: dark; }
 
   html {
     scroll-behavior: smooth;
@@ -701,8 +704,16 @@
   @media (max-width: 768px) {
     .about-grid, .contact-grid { grid-template-columns: 1fr; }
     .nav-status { display: none; }
-    .nav-links a { padding: 0.4rem 0.5rem; font-size: 0.7rem; }
+    .nav-inner { flex-wrap: wrap; height: auto; padding: 0.6rem 0; gap: 0.4rem; }
+    .nav-logo { font-size: 0.8rem; }
+    .nav-links { flex-wrap: wrap; gap: 0.15rem; }
+    .nav-links a { padding: 0.3rem 0.5rem; font-size: 0.65rem; }
     section { padding: 4rem 1.25rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .skills-container { grid-template-columns: 1fr; }
+    .project-filters { gap: 0.35rem; }
+    .filter-btn { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
+    .hero-name { font-size: clamp(2rem, 8vw, 3rem); }
   }
 
   /* ── SCROLL REVEAL ── */
@@ -759,7 +770,7 @@
     <div class="terminal-line"><span class="prompt">❯</span> <span class="cmd">python</span> <span class="flag">-c</span> <span class="str">"import pipeline; pipeline.run()"</span></div>
     <div class="terminal-line"><span class="comment"># Validating asset hierarchy...</span></div>
     <div class="terminal-line"><span class="comment"># Publishing to downstream departments...</span></div>
-    <div class="terminal-line"><span class="prompt">✓</span> <span class="str">Pipeline executed successfully.</span></div>
+    <div class="terminal-line"><span class="prompt">✓</span> <span class="str">Pipeline executed successfully. Departments happy. Coffee earned.</span></div>
   </div>
 </section>
 
@@ -803,7 +814,7 @@
         </div>
         <div class="stat-card">
           <div class="stat-number">10+</div>
-          <div class="stat-label">Tools I've wrangled</div>
+          <div class="stat-label">DCC Integrations</div>
         </div>
       </div>
     </div>
