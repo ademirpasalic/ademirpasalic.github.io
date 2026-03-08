@@ -431,18 +431,21 @@
   .project-card:hover::before { opacity: 1; }
 
   .project-video {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-}
-
-.project-video iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  display: block;
-}
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+  }
+  .project-video iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 
   .project-type {
     font-size: 0.65rem;
@@ -845,45 +848,36 @@
     <div class="projects-grid">
 
       <div class="project-card" data-client="blizzard">
-        <div class="project-video">
-          <iframe 
-            src="https://www.youtube.com/embed/K9n3JVi1Vxk" 
-            title = "Diablo IV x Berserk — Animated Trailer"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen> 
-          </iframe>
-        </div>
+        <div class="project-video"><iframe src="https://www.youtube.com/embed/K9n3JVi1Vxk" allowfullscreen loading="lazy"></iframe></div>
+        
         <div class="project-type">Blizzard · April 2025</div>
         <div class="project-title">Diablo IV x Berserk — Animated Trailer</div>
-        <div class="project-desc">Lead Pipeline TD on the animated crossover trailer.</div>
+        <div class="project-desc">When Diablo meets Berserk, the art gets intense — and so does the pipeline.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Diablo IV</span></div>
+      
       </div>
+
 
       <div class="project-card" data-client="blizzard">
-        <div class="project-video">
-          <iframe 
-            src="https://www.youtube.com/embed/IgY1YrAHYBI" 
-            title = "Alleria: Light and Shadow | World of Warcraft"
-            loading="lazy"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowfullscreen> 
-          </iframe>
-        </div>
+        <div class="project-video"><iframe src="https://www.youtube.com/embed/IgY1YrAHYBI" allowfullscreen loading="lazy"></iframe></div>
+        
         <div class="project-type">Blizzard · August 2024</div>
         <div class="project-title">Alleria: Light and Shadow | World of Warcraft</div>
-        <div class="project-desc">Lead Pipeline TD on the animated short for The War Within.</div>
+        <div class="project-desc">Alleria&#39;s story of light and shadow, brought to life through Sun Creature&#39;s 2D animation.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">WoW</span></div>
+      
       </div>
 
 
-      <a href="https://www.youtube.com/watch?v=zeVwKk7_XHs" target="_blank" class="project-card" data-client="ea">
+      <div class="project-card" data-client="ea">
+        <div class="project-video"><iframe src="https://www.youtube.com/embed/zeVwKk7_XHs" allowfullscreen loading="lazy"></iframe></div>
         
         <div class="project-type">EA / Respawn · April 2025</div>
         <div class="project-title">Apex Legends: Prodigy Anthem Trailer</div>
-        <div class="project-desc">Lead Pipeline TD on the animated anthem trailer.</div>
+        <div class="project-desc">Season anthem trailer introducing the newest Legend to the Apex Games.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex</span></div>
-      </a>
+      
+      </div>
 
 
       <a href="https://www.youtube.com/watch?v=3WZ5DNIzc_o" target="_blank" class="project-card" data-client="ea">
