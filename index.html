@@ -485,18 +485,6 @@
     letter-spacing: 0.02em;
   }
 
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-top: 0.75rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--text-muted);
-    transition: color 0.2s;
-  }
-  .project-card:hover .project-link { color: var(--accent); }
-
   .show-more-wrap {
     display: flex;
     justify-content: center;
@@ -1493,17 +1481,6 @@
     window.location.href = 'mailto:ademir.p@outlook.dk'
       + '?subject=' + encodeURIComponent(subject)
       + '&body=' + encodeURIComponent(body);
-  }
-
-  // Add watch links
-  var allCards = document.querySelectorAll('.project-card');
-  for (var i = 0; i < allCards.length; i++) {
-    if (!allCards[i].querySelector('.project-link')) {
-      var link = document.createElement('div');
-      link.className = 'project-link';
-      link.textContent = '\u25B6 Watch on YouTube';
-      allCards[i].appendChild(link);
-    }
   }
 
 
