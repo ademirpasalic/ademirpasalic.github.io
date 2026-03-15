@@ -871,6 +871,7 @@
 
     <div class="project-filters">
       <button class="filter-btn active" onclick="filterProjects('all')">All</button>
+      <button class="filter-btn" onclick="filterProjects('featured')">Featured</button>
       <button class="filter-btn" onclick="filterProjects('supercell')">Supercell</button>
       <button class="filter-btn" onclick="filterProjects('ea')">EA / Respawn</button>
       <button class="filter-btn" onclick="filterProjects('blizzard')">Blizzard</button>
@@ -897,7 +898,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>      
       </div>
 
-      <div class="project-card" data-client="blizzard">
+      <div class="project-card" data-client="blizzard,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/QKVSzP_sEU8" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Blizzard · February 2026</div>
         <div class="project-title">Arator: Son of Two Worlds</div>
@@ -921,7 +922,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">World of Warcraft</span></div>
       </div>
 
-      <div class="project-card" data-client="netflix">
+      <div class="project-card" data-client="netflix,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/4A9iFjaKeMk" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Netflix · Series 2025</div>
         <div class="project-title">Splinter Cell: Deathwatch</div>
@@ -929,7 +930,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Splinter Cell</span></div>
       </div>
 
-      <div class="project-card" data-client="riot">
+      <div class="project-card" data-client="riot,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/4L6UfKr8qSE" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Riot Games · October 2025</div>
         <div class="project-title">Miss This Life ft. NINGNING of aespa & Fairlane</div>
@@ -953,7 +954,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
       </div>
 
-      <div class="project-card" data-client="lego">
+      <div class="project-card" data-client="lego,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/EbIxh8Nq9zU" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Lego · June 2025</div>
         <div class="project-title">NINJAGO Legends: Monstrosity</div>
@@ -961,7 +962,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Ninjago</span></div>
       </div>
 
-      <div class="project-card" data-client="blizzard">
+      <div class="project-card" data-client="blizzard,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/K9n3JVi1Vxk" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Blizzard · April 2025</div>
         <div class="project-title">Diablo IV x Berserk</div>
@@ -969,7 +970,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Diablo IV</span></div>
       </div>
 
-      <div class="project-card" data-client="ea">
+      <div class="project-card" data-client="ea,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/zeVwKk7_XHs" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">EA / Respawn · April 2025</div>
         <div class="project-title">Prodigy</div>
@@ -1017,7 +1018,7 @@
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
-      <div class="project-card" data-client="cartoonnetwork">
+      <div class="project-card" data-client="cartoonnetwork,featured">
         <div class="project-video"><iframe src="https://www.youtube.com/embed/81rXySAfTxk" allowfullscreen loading="lazy"></iframe></div>
         <div class="project-type">Cartoon Network · Series · 2022–2024</div>
         <div class="project-title">The Heroic Quest of the Valiant Prince Ivandoe</div>
@@ -1581,7 +1582,7 @@
     event.target.classList.add('active');
     expanded = false;
     for (var i = 0; i < cards.length; i++) {
-      if (client === 'all' || cards[i].dataset.client === client) {
+      if (client === 'all' || cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).includes(client)) {
         delete cards[i].dataset.filteredOut;
       } else {
         cards[i].dataset.filteredOut = 'true';
