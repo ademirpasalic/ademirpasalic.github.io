@@ -1601,6 +1601,7 @@
             <label>MESSAGE</label>
             <textarea name="message" id="contact-message" placeholder="Hey, I've got a pipeline problem..." required></textarea>
           </div>
+          <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
           <button type="submit" class="btn btn-primary" style="align-self:flex-start;">→ Send Message</button>
         </form>
         <div id="form-success" style="display:none;padding:2rem 0;text-align:center;">
@@ -1621,6 +1622,7 @@
 </footer>
 
 
+<script src="https://web3forms.com/client/script.js" async defer></script>
 <script>
   var expanded = false;
   var INITIAL_COUNT = 3;
@@ -1674,7 +1676,7 @@
     if (!expanded) document.getElementById('projects').scrollIntoView({behavior:'smooth'});
   }
 
-  // Contact form via Formspree
+  // Contact form
   var contactForm = document.getElementById('contact-form');
   if (contactForm) {
     contactForm.addEventListener('submit', function(e) {
@@ -1684,12 +1686,17 @@
       var message = document.getElementById('contact-message').value;
       var subject = 'Connect ' + name;
       document.getElementById('form-subject').value = subject;
+      var hCaptchaEl = contactForm.querySelector('textarea[name=h-captcha-response]');
+      if (!hCaptchaEl || !hCaptchaEl.value) {
+        return;
+      }
       var data = JSON.stringify({
         access_key: '0728dcea-001c-4611-b64c-528b73f38f22',
         subject: subject,
         name: name,
         email: email,
-        message: message
+        message: message,
+        'h-captcha-response': hCaptchaEl.value
       });
       fetch('https://api.web3forms.com/submit', {
         method: 'POST',
