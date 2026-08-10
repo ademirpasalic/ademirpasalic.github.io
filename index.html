@@ -1,36 +1,30 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#050508">
 <title>Ademir Pasalic - Senior Software Engineer</title>
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg-primary: #050508;
-    --bg-secondary: #0b0b12;
-    --bg-card: #0e0e17;
-    --bg-card-hover: #151522;
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #12121e;
+    --bg-card-hover: #181828;
     --accent: #00e5a0;
     --accent-dim: #00e5a020;
     --accent-mid: #00e5a060;
-    --blood: #ff2d55;
-    --blood-dim: #ff2d5518;
-    --blood-mid: #ff2d5560;
-    --ember: #ff6b35;
-    --text-primary: #e6e6ee;
-    --text-secondary: #8a8a9e;
+    --text-primary: #e0e0e8;
+    --text-secondary: #7a7a8e;
     --text-muted: #4a4a5e;
-    --border: #1c1c2c;
-    --border-hover: #2e2e44;
+    --border: #1e1e30;
+    --border-hover: #2a2a40;
     --terminal-green: #00e5a0;
-    --error-red: #ff2d55;
+    --error-red: #ff4060;
     --warn-yellow: #ffc040;
     --info-blue: #40a0ff;
-    --snap: cubic-bezier(0.2, 0.9, 0.25, 1);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -56,65 +50,17 @@
     color: var(--bg-primary);
   }
 
-  /* ── Background layers ── */
+  /* ── Grid background ── */
   .grid-bg {
     position: fixed;
-    inset: -60px;
+    inset: 0;
     background-image:
       linear-gradient(var(--border) 1px, transparent 1px),
       linear-gradient(90deg, var(--border) 1px, transparent 1px);
     background-size: 60px 60px;
-    opacity: 0.14;
+    opacity: 0.15;
     pointer-events: none;
     z-index: 0;
-    animation: gridDrift 24s linear infinite;
-  }
-  @keyframes gridDrift {
-    from { transform: translate3d(0, 0, 0); }
-    to   { transform: translate3d(60px, 60px, 0); }
-  }
-
-  .aurora {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background:
-      radial-gradient(600px 420px at 12% 8%, rgba(0, 229, 160, 0.07), transparent 70%),
-      radial-gradient(700px 520px at 88% 90%, rgba(255, 45, 85, 0.06), transparent 70%),
-      radial-gradient(500px 400px at 80% 15%, rgba(255, 107, 53, 0.03), transparent 70%);
-    animation: auroraBreathe 9s ease-in-out infinite alternate;
-  }
-  @keyframes auroraBreathe {
-    from { opacity: 0.7; }
-    to   { opacity: 1; }
-  }
-
-  #fx-canvas {
-    position: fixed;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .grain {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 2000;
-    opacity: 0.05;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    mix-blend-mode: overlay;
-  }
-
-  .vignette {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 1;
-    background: radial-gradient(ellipse 120% 90% at 50% 40%, transparent 55%, rgba(0, 0, 0, 0.55) 100%);
   }
 
   /* ── NAV ── */
@@ -123,21 +69,10 @@
     top: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(5, 5, 8, 0.82);
+    background: rgba(10, 10, 15, 0.85);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     padding: 0 2rem;
-  }
-  nav::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--blood-mid) 30%, var(--accent-mid) 70%, transparent);
-    opacity: 0.6;
-    pointer-events: none;
   }
 
   .nav-inner {
@@ -223,28 +158,12 @@
 
   .section-title {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 2.5rem;
-    position: relative;
-    display: inline-block;
-    padding-bottom: 0.6rem;
   }
-  .section-title::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--blood), var(--accent) 40%, transparent 90%);
-    opacity: 0.7;
-  }
-  .section-title .hl {
-    color: var(--accent);
-    text-shadow: 0 0 24px rgba(0, 229, 160, 0.4);
-  }
+  .section-title .hl { color: var(--accent); }
 
   /* ── HERO ── */
   #hero {
@@ -266,50 +185,11 @@
 
   .hero-name {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: clamp(2.5rem, 6.5vw, 5rem);
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
     font-weight: 700;
-    line-height: 1.05;
+    line-height: 1.1;
     margin-bottom: 1rem;
-    letter-spacing: -0.02em;
     animation: fadeUp 0.6s ease forwards 0.4s;
-  }
-  .glitch {
-    position: relative;
-    display: inline-block;
-    background: linear-gradient(180deg, #ffffff 30%, #9a9ab2 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  .glitch::before,
-  .glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    inset: 0;
-    background: none;
-    -webkit-text-fill-color: currentColor;
-    opacity: 0;
-    pointer-events: none;
-  }
-  .glitch::before {
-    color: var(--accent);
-    animation: glitchShift 6s steps(1) infinite;
-  }
-  .glitch::after {
-    color: var(--blood);
-    animation: glitchShift2 6s steps(1) infinite;
-  }
-  @keyframes glitchShift {
-    0%, 92%, 100% { opacity: 0; transform: none; clip-path: none; }
-    93% { opacity: 0.8; transform: translate(-4px, 2px); clip-path: inset(15% 0 60% 0); }
-    94.5% { opacity: 0.8; transform: translate(3px, -1px); clip-path: inset(55% 0 20% 0); }
-    96% { opacity: 0; }
-  }
-  @keyframes glitchShift2 {
-    0%, 92.5%, 100% { opacity: 0; transform: none; clip-path: none; }
-    93.5% { opacity: 0.8; transform: translate(4px, -2px); clip-path: inset(60% 0 10% 0); }
-    95% { opacity: 0.8; transform: translate(-3px, 1px); clip-path: inset(5% 0 70% 0); }
-    96.5% { opacity: 0; }
   }
   .hero-name .cursor {
     display: inline-block;
@@ -349,65 +229,37 @@
     font-size: 0.78rem;
     padding: 0.7rem 1.5rem;
     border: 1px solid var(--border);
-    border-radius: 2px;
+    border-radius: 4px;
     text-decoration: none;
-    transition: border-color 0.15s var(--snap), color 0.15s var(--snap), box-shadow 0.15s var(--snap), transform 0.15s var(--snap), background 0.15s var(--snap);
+    transition: all 0.25s;
     cursor: pointer;
     background: transparent;
     color: var(--text-secondary);
-    position: relative;
-    overflow: hidden;
   }
-  .btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -120%;
-    width: 60%;
-    height: 100%;
-    background: linear-gradient(105deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-    transition: left 0.4s var(--snap);
-    pointer-events: none;
-  }
-  .btn:hover::before { left: 160%; }
   .btn:hover {
     border-color: var(--accent);
     color: var(--accent);
-    box-shadow: 0 0 24px var(--accent-dim), inset 0 0 12px rgba(0, 229, 160, 0.06);
-    transform: translateY(-1px);
+    box-shadow: 0 0 20px var(--accent-dim);
   }
-  .btn:active { transform: translateY(1px); }
   .btn-primary {
     background: var(--accent);
     color: var(--bg-primary);
     border-color: var(--accent);
-    font-weight: 600;
-    box-shadow: 0 0 28px rgba(0, 229, 160, 0.25);
+    font-weight: 500;
   }
   .btn-primary:hover {
     background: transparent;
     color: var(--accent);
-    box-shadow: 0 0 32px rgba(0, 229, 160, 0.35);
   }
 
   .hero-terminal {
     margin-top: 3rem;
-    background: linear-gradient(180deg, var(--bg-secondary), rgba(11, 11, 18, 0.6));
+    background: var(--bg-secondary);
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 1.25rem 1.5rem;
     max-width: 600px;
     animation: fadeUp 0.6s ease forwards 1s;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.03);
-  }
-  .hero-terminal::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.015) 0 1px, transparent 1px 3px);
-    pointer-events: none;
   }
 
   .terminal-bar {
@@ -462,11 +314,10 @@
     border: 2px solid var(--border);
     object-fit: cover;
     flex-shrink: 0;
-    transition: border-color 0.18s var(--snap), box-shadow 0.18s var(--snap);
+    transition: border-color 0.3s;
   }
   .profile-photo:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 30px rgba(0, 229, 160, 0.3);
   }
 
   .about-header-text {
@@ -509,33 +360,19 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     padding: 1.25rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.18s var(--snap), transform 0.18s var(--snap), background 0.18s var(--snap);
-  }
-  .stat-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), rgba(255, 45, 85, 0.06), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.2s var(--snap);
-    pointer-events: none;
+    transition: all 0.3s;
   }
   .stat-card:hover {
     border-color: var(--accent);
-    background: var(--bg-card-hover);
-    transform: translateY(-3px);
+    box-shadow: 0 0 30px var(--accent-dim);
+    transform: translateY(-2px);
   }
-  .stat-card:hover::after { opacity: 1; }
   .stat-number {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 1.9rem;
+    font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent);
-    text-shadow: 0 0 20px rgba(0, 229, 160, 0.35);
   }
   .stat-label {
     font-size: 0.72rem;
@@ -555,9 +392,8 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
     padding: 1.5rem;
-    transition: border-color 0.18s var(--snap), transform 0.18s var(--snap), box-shadow 0.18s var(--snap);
+    transition: all 0.3s;
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -570,29 +406,17 @@
     position: absolute;
     top: 0; left: 0;
     width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--blood), var(--accent) 55%, transparent);
+    background: linear-gradient(90deg, var(--accent), transparent);
     opacity: 0;
-    transition: opacity 0.18s var(--snap);
+    transition: opacity 0.3s;
     z-index: 2;
   }
-  .project-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 229, 160, 0.07), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.2s var(--snap);
-    pointer-events: none;
-    z-index: 1;
-  }
   .project-card:hover {
-    border-color: var(--accent-mid);
-    background: var(--bg-card-hover);
-    transform: translateY(-5px);
-    box-shadow: inset 0 0 40px rgba(0, 229, 160, 0.04);
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
   }
   .project-card:hover::before { opacity: 1; }
-  .project-card:hover::after { opacity: 1; }
 
   .project-video {
     position: relative;
@@ -663,7 +487,7 @@
     border-radius: 4px;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: all 0.15s var(--snap);
+    transition: all 0.25s;
     letter-spacing: 0.03em;
   }
   .show-more-btn:hover {
@@ -687,23 +511,15 @@
     padding: 0.35rem 0.85rem;
     background: transparent;
     border: 1px solid var(--border);
-    border-radius: 2px;
+    border-radius: 4px;
     color: var(--text-secondary);
     cursor: pointer;
-    transition: border-color 0.12s var(--snap), color 0.12s var(--snap), background 0.12s var(--snap), box-shadow 0.12s var(--snap), transform 0.12s var(--snap);
+    transition: all 0.2s;
   }
-  .filter-btn:hover {
+  .filter-btn:hover, .filter-btn.active {
     border-color: var(--accent);
     color: var(--accent);
     background: var(--accent-dim);
-    transform: translateY(-1px);
-  }
-  .filter-btn.active {
-    border-color: var(--accent);
-    color: var(--bg-primary);
-    background: var(--accent);
-    font-weight: 600;
-    box-shadow: 0 0 18px rgba(0, 229, 160, 0.35);
   }
 
   /* ── SKILLS ── */
@@ -717,26 +533,12 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     padding: 1.5rem;
-    position: relative;
-    overflow: hidden;
-    transition: border-color 0.18s var(--snap), background 0.18s var(--snap);
-  }
-  .skill-group::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 229, 160, 0.05), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.2s var(--snap);
-    pointer-events: none;
+    transition: border-color 0.3s;
   }
   .skill-group:hover {
-    border-color: var(--accent-mid);
-    background: var(--bg-card-hover);
+    border-color: var(--border-hover);
   }
-  .skill-group:hover::after { opacity: 1; }
 
   .skill-group-title {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -808,13 +610,12 @@
     text-decoration: none;
     color: var(--text-secondary);
     font-size: 0.82rem;
-    transition: all 0.18s var(--snap);
+    transition: all 0.3s;
   }
   .contact-link:hover {
     border-color: var(--accent);
     color: var(--accent);
-    transform: translateX(6px);
-    box-shadow: -4px 0 0 0 var(--blood), 0 0 24px var(--accent-dim);
+    transform: translateX(4px);
   }
   .contact-link-label {
     font-family: 'JetBrains Mono', monospace;
@@ -895,37 +696,15 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
     padding: 1.5rem;
-    transition: border-color 0.18s var(--snap), transform 0.18s var(--snap), background 0.18s var(--snap);
+    transition: all 0.3s;
     position: relative;
-    overflow: hidden;
-  }
-  .tool-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 2px;
-    background: linear-gradient(90deg, var(--accent), var(--blood) 60%, transparent);
-    opacity: 0;
-    transition: opacity 0.18s var(--snap);
-  }
-  .tool-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(200px circle at var(--mx, 50%) var(--my, 50%), rgba(0, 229, 160, 0.06), transparent 65%);
-    opacity: 0;
-    transition: opacity 0.2s var(--snap);
-    pointer-events: none;
   }
   .tool-card:hover {
-    border-color: var(--accent-mid);
-    background: var(--bg-card-hover);
-    transform: translateY(-4px);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 229, 160, 0.07);
   }
-  .tool-card:hover::before { opacity: 1; }
-  .tool-card:hover::after { opacity: 1; }
 
   .tool-icon {
     font-size: 1.6rem;
@@ -980,35 +759,19 @@
 
   /* ── SCROLL REVEAL ── */
   .reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .reveal.visible {
     opacity: 1;
     transform: translateY(0);
-  }
-  html.no-js .reveal { opacity: 1; transform: none; }
-
-  /* ── REDUCED MOTION ── */
-  @media (prefers-reduced-motion: reduce) {
-    .grid-bg, .aurora, .glitch::before, .glitch::after, .status-dot, .hero-name .cursor {
-      animation: none !important;
-    }
-    .glitch::before, .glitch::after { opacity: 0 !important; }
-    #fx-canvas { display: none; }
-    .reveal { opacity: 1; transform: none; transition: none; }
-    * { transition-duration: 0.01s !important; }
   }
 </style>
 </head>
 <body>
 
 <div class="grid-bg"></div>
-<div class="aurora"></div>
-<canvas id="fx-canvas"></canvas>
-<div class="vignette"></div>
-<div class="grain"></div>
 
 <!-- ── NAV ── -->
 <nav>
@@ -1031,7 +794,7 @@
 <!-- ── HERO ── -->
 <section id="hero">
   <div class="hero-pretitle">$ whoami</div>
-  <h1 class="hero-name"><span class="glitch" data-text="Ademir Pasalic">Ademir Pasalic</span><span class="cursor"></span></h1>
+  <h1 class="hero-name">Ademir Pasalic<span class="cursor"></span></h1>
   <p class="hero-role">
     <strong>Senior Software Engineer</strong> with 7+ years bridging technology, creative, and production teams. Building tools for game engines, asset/pipeline automation, and validation workflows for AAA studios and entertainment brands.
   </p>
@@ -1993,122 +1756,13 @@
       + '&body=' + encodeURIComponent(body);
   }
 
-  document.documentElement.classList.remove('no-js');
-
   var reveals = document.querySelectorAll('.reveal');
   var observer = new IntersectionObserver(function(entries) {
     for (var i = 0; i < entries.length; i++) {
-      if (entries[i].isIntersecting) {
-        entries[i].target.classList.add('visible');
-        observer.unobserve(entries[i].target);
-      }
+      if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
     }
-  }, {threshold: 0.08});
+  }, {threshold: 0.1});
   for (var i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
-
-  // Cursor-tracked glow on cards
-  document.addEventListener('pointermove', function(e) {
-    var card = e.target.closest && e.target.closest('.project-card, .tool-card, .stat-card, .skill-group');
-    if (!card) return;
-    var rect = card.getBoundingClientRect();
-    card.style.setProperty('--mx', (e.clientX - rect.left) + 'px');
-    card.style.setProperty('--my', (e.clientY - rect.top) + 'px');
-  });
-
-  // Stat count-up on reveal
-  function countUp(el) {
-    var raw = el.textContent;
-    var match = raw.match(/^(\d+)(.*)$/);
-    if (!match) return;
-    var target = parseInt(match[1], 10);
-    var suffix = match[2];
-    var start = null;
-    var duration = 900;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / duration, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased) + suffix;
-      if (p < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
-  var statObserver = new IntersectionObserver(function(entries) {
-    for (var i = 0; i < entries.length; i++) {
-      if (entries[i].isIntersecting) {
-        countUp(entries[i].target);
-        statObserver.unobserve(entries[i].target);
-      }
-    }
-  }, {threshold: 0.5});
-  var statNumbers = document.querySelectorAll('.stat-number');
-  for (var i = 0; i < statNumbers.length; i++) statObserver.observe(statNumbers[i]);
-
-  // Ember particles
-  (function() {
-    var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduced) return;
-    var canvas = document.getElementById('fx-canvas');
-    if (!canvas) return;
-    var ctx = canvas.getContext('2d');
-    var particles = [];
-    var running = true;
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    var COUNT = window.innerWidth < 768 ? 22 : 48;
-    var COLORS = [
-      [0, 229, 160],
-      [0, 229, 160],
-      [255, 45, 85],
-      [255, 107, 53]
-    ];
-
-    function spawn(p, fresh) {
-      p.x = Math.random() * canvas.width;
-      p.y = fresh ? Math.random() * canvas.height : canvas.height + 10;
-      p.r = 0.6 + Math.random() * 1.6;
-      p.vy = -(0.15 + Math.random() * 0.45);
-      p.vx = (Math.random() - 0.5) * 0.25;
-      p.color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      p.alpha = 0.15 + Math.random() * 0.35;
-      p.flicker = 0.5 + Math.random() * 2;
-      return p;
-    }
-    for (var i = 0; i < COUNT; i++) particles.push(spawn({}, true));
-
-    function frame(ts) {
-      if (!running) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.y < -10 || p.x < -10 || p.x > canvas.width + 10) spawn(p, false);
-        var a = p.alpha * (0.7 + 0.3 * Math.sin(ts * 0.001 * p.flicker + i));
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ',' + a + ')';
-        ctx.fill();
-      }
-      requestAnimationFrame(frame);
-    }
-    requestAnimationFrame(frame);
-
-    document.addEventListener('visibilitychange', function() {
-      if (document.hidden) {
-        running = false;
-      } else if (!running) {
-        running = true;
-        requestAnimationFrame(frame);
-      }
-    });
-  })();
 
   applyVisibility();
 </script>
