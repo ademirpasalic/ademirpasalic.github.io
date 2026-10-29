@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="color-scheme" content="dark">
 <title>Ademir Pasalic - Senior Software Engineer</title>
+<meta name="description" content="Senior Software Engineer in Copenhagen. Python tools, data pipelines and data migration for animation production.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ademirpasalic.github.io/">
+<meta property="og:title" content="Ademir Pasalic - Senior Software Engineer">
+<meta property="og:description" content="Python tools, data pipelines and data migration for animation production.">
+<meta property="og:image" content="https://ademirpasalic.github.io/profile.png">
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -21,7 +27,6 @@
     --text-muted: #5e5e74;
     --border: #1e1e30;
     --border-hover: #2a2a40;
-    --terminal-green: #00e5a0;
     --error-red: #ff4060;
     --warn-yellow: #ffc040;
     --info-blue: #40a0ff;
@@ -277,41 +282,6 @@
     color: var(--accent);
   }
 
-  .hero-terminal {
-    margin-top: 3rem;
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 1.25rem 1.5rem;
-    max-width: 600px;
-    animation: fadeUp 0.6s ease forwards 1s;
-  }
-
-  .terminal-bar {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 1rem;
-  }
-  .terminal-dot {
-    width: 10px; height: 10px;
-    border-radius: 50%;
-  }
-  .terminal-dot.r { background: var(--error-red); }
-  .terminal-dot.y { background: var(--warn-yellow); }
-  .terminal-dot.g { background: var(--accent); }
-
-  .terminal-line {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.78rem;
-    line-height: 1.8;
-    color: var(--text-muted);
-  }
-  .terminal-line .prompt { color: var(--accent); }
-  .terminal-line .cmd { color: var(--text-primary); }
-  .terminal-line .flag { color: var(--info-blue); }
-  .terminal-line .str { color: var(--warn-yellow); }
-  .terminal-line .comment { color: var(--text-muted); font-style: italic; }
-
   @keyframes fadeUp {
     from { transform: translateY(20px); }
     to   { transform: translateY(0); }
@@ -320,45 +290,6 @@
   /* ── ABOUT ── */
   .about-grid {
     max-width: 760px;
-  }
-
-  .about-header {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .profile-photo {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 2px solid var(--border);
-    object-fit: cover;
-    flex-shrink: 0;
-    transition: border-color 0.3s;
-  }
-  .profile-photo:hover {
-    border-color: var(--accent);
-  }
-
-  .about-header-text {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-  }
-  .about-header-name {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--text-primary);
-  }
-  .about-header-role {
-    font-size: 0.78rem;
-    color: var(--accent);
-    margin-top: 0.2rem;
-  }
-  .about-header-location {
-    font-size: 0.72rem;
-    color: var(--text-muted);
-    margin-top: 0.15rem;
   }
 
   .about-text p {
@@ -370,12 +301,6 @@
     color: var(--accent);
     text-decoration: none;
     border-bottom: 1px solid var(--accent-dim);
-  }
-
-  .about-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
   }
 
   .stat-card {
@@ -401,6 +326,47 @@
     color: var(--text-muted);
     margin-top: 0.25rem;
     letter-spacing: 0.05em;
+  }
+
+  /* ── DATA PROJECT ── */
+  .data-card {
+    background: var(--bg-card);
+    border: 1px solid var(--accent-mid);
+    border-radius: 6px;
+    padding: 2rem;
+  }
+  .data-intro, .data-result {
+    color: var(--text-secondary);
+    font-size: 0.98rem;
+    max-width: 820px;
+  }
+  .data-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .data-step {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1rem;
+  }
+  .data-step-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+  .data-step-desc { font-size: 0.86rem; color: var(--text-secondary); line-height: 1.55; }
+  .data-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1.5rem;
   }
 
   /* ── PROJECTS ── */
@@ -757,12 +723,6 @@
     box-shadow: 0 8px 30px rgba(0, 229, 160, 0.07);
   }
 
-  .tool-icon {
-    font-size: 1.6rem;
-    margin-bottom: 0.75rem;
-    line-height: 1;
-  }
-
   .tool-name {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.95rem;
@@ -782,13 +742,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 0.35rem;
-  }
-
-  .tool-screenshot {
-    width: 100%;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    margin-bottom: 0.75rem;
   }
 
   /* ── RESPONSIVE ── */
@@ -811,6 +764,7 @@
     section { padding: 4rem 1.25rem; }
     .projects-grid { grid-template-columns: 1fr; }
     .tools-grid { grid-template-columns: 1fr; }
+    .data-card { padding: 1.25rem; }
     .skills-container { grid-template-columns: 1fr; }
     .project-filters { gap: 0.35rem; }
     .filter-btn { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
@@ -839,6 +793,7 @@
     <a onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="nav-logo" style="cursor:pointer;">~/ademir_pasalic <span>$</span></a>
     <ul class="nav-links">
       <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">about</a></li>
+      <li><a onclick="document.getElementById('data').scrollIntoView({behavior:'smooth'})">data</a></li>
       <li><a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">projects</a></li>
       <li><a onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">tools</a></li>
       <li><a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">skills</a></li>
@@ -895,10 +850,32 @@
   </div>
 </section>
 
+<!-- ── DATA PROJECT ── -->
+<section id="data">
+  <div class="reveal">
+    <div class="section-label">Data project</div>
+    <h2 class="section-title">cd <span class="hl">~/legacy-to-lakehouse</span></h2>
+    <div class="data-card">
+      <p class="data-intro">A practice data migration with made-up data, based on the one I did at work. Three productions tracked their shots in their own spreadsheets: an Excel file, a Google Sheet and a Coda doc. Different columns, status spellings and date formats, plus duplicates and blanks. The pipeline moves all of it into one Delta Lake table and proves nothing was lost.</p>
+      <div class="data-steps">
+        <div class="data-step"><div class="data-step-name">1. Bronze</div><div class="data-step-desc">Each export lands as-is, all as text, with where and when it came from.</div></div>
+        <div class="data-step"><div class="data-step-name">2. Silver</div><div class="data-step-desc">Each source is mapped and cleaned into one table. MERGE means a rerun updates shots instead of duplicating them.</div></div>
+        <div class="data-step"><div class="data-step-name">3. Quarantine</div><div class="data-step-desc">Rows that can&#39;t be fixed are kept with a reason, so nothing is dropped silently and nothing is guessed.</div></div>
+        <div class="data-step"><div class="data-step-name">4. Reconcile</div><div class="data-step-desc">Counts every shot in the legacy files and fails the build if one is missing or invented.</div></div>
+      </div>
+      <p class="data-result">Result: 240 legacy shots, 216 in the new table, 24 in quarantine, 0 missing. 23 tests, and GitHub Actions runs the whole migration on every push. Next: running it in PySpark on Databricks.</p>
+      <div class="data-footer">
+        <div class="project-tags"><span class="tag">Python</span><span class="tag">pandas</span><span class="tag">Delta Lake</span><span class="tag">pytest</span><span class="tag">GitHub Actions</span></div>
+        <a href="https://github.com/ademirpasalic/legacy-to-lakehouse" target="_blank" rel="noopener" class="btn btn-primary">&#x2192; View on GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ── PROJECTS ── -->
 <section id="projects">
   <div class="reveal">
-    <div class="section-label">Projects</div>
+    <div class="section-label">Productions</div>
     <h2 class="section-title">ls <span class="hl">~/projects</span></h2>
 
     <div class="project-filters">
@@ -925,467 +902,468 @@
 
     <div class="projects-grid">
 
+      <div class="project-card" data-client="lego,featured">
+        <div class="project-video yt" data-id="EbIxh8Nq9zU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/EbIxh8Nq9zU/hqdefault.jpg)"></div>
+        <div class="project-type">LEGO | June 2025</div>
+        <div class="project-title">NINJAGO Legends: Monstrosity</div>
+        <div class="project-desc">Animated episode of the NINJAGO Legends series for The LEGO Group.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Ninjago</span></div>
+      </div>
+
+      <div class="project-card" data-client="netflix,featured">
+        <div class="project-video yt" data-id="2rrRToCVm4I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/2rrRToCVm4I/hqdefault.jpg)"></div>
+        <div class="project-type">Netflix | Series | 2023</div>
+        <div class="project-title">Blue Eye Samurai</div>
+        <div class="project-desc">Three episodes (S1E6 to S1E8) of Netflix&#39;s Emmy-winning animated series.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Netflix</span></div>
+      </div>
+
       <div class="project-card" data-client="wizards-of-the-coast">
         <div class="project-video yt" data-id="9CtTscZmdw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9CtTscZmdw0/hqdefault.jpg)"></div>
-        <div class="project-type">Wizards of the Coast · July 2026</div>
+        <div class="project-type">Wizards of the Coast | July 2026</div>
         <div class="project-title">Dungeons & Dragons: Dark Sun</div>
-        <div class="project-desc">Beneath a fractured sun, bear witness to the bloodshed and carnage that defines a dying world.</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Dungeons & Dragons</span></div>      
+        <div class="project-desc">Animated trailer for the Dark Sun setting in Dungeons &amp; Dragons.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Dungeons & Dragons</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="BWJYT9t1Ieg" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BWJYT9t1Ieg/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2026</div>
+        <div class="project-type">Supercell | June 2026</div>
         <div class="project-title">GET MONEY MONEY MONEY</div>
-        <div class="project-desc">NanoNoodles are a certified infinite coin trick!</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+        <div class="project-desc">Animated short about the NanoNoodles in Brawl Stars.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="Io1ZL0rc2Ac" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Io1ZL0rc2Ac/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · April 2026</div>
+        <div class="project-type">Supercell | April 2026</div>
         <div class="project-title">Brawl Stars x ElectricCallboy - HYPERCHARGED</div>
-        <div class="project-desc">Watch and listen to "HYPERCHARGED"! The newest song by Electric Callboy made to announce Damian!</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+        <div class="project-desc">Music video with Electric Callboy, made to announce the Brawler Damian.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="epic-games">
         <div class="project-video yt" data-id="5QBlmbkeF3I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/5QBlmbkeF3I/hqdefault.jpg)"></div>
-        <div class="project-type">Epic Games · April 2026</div>
+        <div class="project-type">Epic Games | April 2026</div>
         <div class="project-title">Laufey's Distinct Sound</div>
-        <div class="project-desc">It was only A Matter of Time, right Laufey?</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Fortnite</span></div>      
+        <div class="project-desc">Animated short for Laufey&#39;s arrival in Fortnite.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Fortnite</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="WuwxkkSSeug" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WuwxkkSSeug/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · February 2026</div>
+        <div class="project-type">Supercell | February 2026</div>
         <div class="project-title">Sirius - No more Brawl Stars!</div>
-        <div class="project-desc">Sirius, The First Star of Starr Park is here.</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+        <div class="project-desc">Teaser for Sirius, a new character in Brawl Stars.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="blizzard,featured">
         <div class="project-video yt" data-id="QKVSzP_sEU8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/QKVSzP_sEU8/hqdefault.jpg)"></div>
-        <div class="project-type">Blizzard · February 2026</div>
+        <div class="project-type">Blizzard | February 2026</div>
         <div class="project-title">Arator: Son of Two Worlds</div>
-        <div class="project-desc">Arator&#39;s story of duality and legacy, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-desc">2D animated short about Arator for World of Warcraft.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">World of Warcraft</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="d-NtBVjvP6Y" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/d-NtBVjvP6Y/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · February 2026</div>
+        <div class="project-type">Supercell | February 2026</div>
         <div class="project-title">Sirius - The Untold Lore</div>
-        <div class="project-desc">Villains aren&#39;t born; they&#39;re made.</div>
-        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+        <div class="project-desc">Animated origin story for Sirius in Brawl Stars.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="oaklandroots">
         <div class="project-video yt" data-id="yX736VzWT-s" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/yX736VzWT-s/hqdefault.jpg)"></div>
-        <div class="project-type">Oakland Roots · February 2026</div>
+        <div class="project-type">Oakland Roots | February 2026</div>
         <div class="project-title">The Oakness Awakens</div>
-        <div class="project-desc">2026 Oakland Roots SC Jerseys</div>
+        <div class="project-desc">Animated film launching Oakland Roots SC&#39;s 2026 jerseys.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Oakland Roots</span></div>
       </div>
 
       <div class="project-card" data-client="blizzard">
         <div class="project-video yt" data-id="CoJgQA4Uhks" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CoJgQA4Uhks/hqdefault.jpg)"></div>
-        <div class="project-type">Blizzard · February 2026</div>
+        <div class="project-type">Blizzard | February 2026</div>
         <div class="project-title">Liadrin: All That is Sacred</div>
-        <div class="project-desc">Liadrin&#39;s story of loss, despair, and retribution, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-desc">2D animated short about Liadrin for World of Warcraft.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">World of Warcraft</span></div>
       </div>
 
       <div class="project-card" data-client="netflix">
         <div class="project-video yt" data-id="4A9iFjaKeMk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4A9iFjaKeMk/hqdefault.jpg)"></div>
-        <div class="project-type">Netflix · Series 2025</div>
+        <div class="project-type">Netflix | Series 2025</div>
         <div class="project-title">Splinter Cell: Deathwatch</div>
-        <div class="project-desc">Sam Fisher goes animated — full first season of Netflix&#39;s Splinter Cell adaptation.</div>
+        <div class="project-desc">Season 1 of Netflix&#39;s animated Splinter Cell series.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Splinter Cell</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="tR872KZ_zAk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/tR872KZ_zAk/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · November 2025</div>
+        <div class="project-type">Supercell | November 2025</div>
         <div class="project-title">Brawl Stars x Stranger Things</div>
-        <div class="project-desc">The Upside Down swallows the Brawliverse. Eleven didn&#39;t come alone, and the Brawlers aren&#39;t ready.</div>
+        <div class="project-desc">Animated trailer for the Brawl Stars x Stranger Things collaboration.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="riot,featured">
         <div class="project-video yt" data-id="4L6UfKr8qSE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4L6UfKr8qSE/hqdefault.jpg)"></div>
-        <div class="project-type">Riot Games · October 2025</div>
+        <div class="project-type">Riot Games | October 2025</div>
         <div class="project-title">Miss This Life ft. NINGNING of aespa & Fairlane</div>
-        <div class="project-desc">You are Wild Rift. And Wild Rift is you. Happy 5th anniversary  to us.</div>
+        <div class="project-desc">Music video for the 5th anniversary of League of Legends: Wild Rift.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">League of Legends: Wild Rift</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="GEMaj3iOQw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/GEMaj3iOQw0/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · October 2025</div>
+        <div class="project-type">Supercell | October 2025</div>
         <div class="project-title">Brawl Stars is turning upside down!</div>
-        <div class="project-desc">Something wicked is coming to the Brawliverse. A mysterious teaser that keeps you guessing.</div>
+        <div class="project-desc">Teaser for the Brawl Stars x Stranger Things collaboration.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="L30jSz9BEEw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/L30jSz9BEEw/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · September 2025</div>
+        <div class="project-type">Supercell | September 2025</div>
         <div class="project-title">Brawl-O-Ween is coming!</div>
-        <div class="project-desc">Spooky season hits the Brawliverse — ghosts, ghouls, and Brawlers dressed to haunt.</div>
+        <div class="project-desc">Animated trailer for the Halloween event in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="garena">
         <div class="project-video yt" data-id="CM5fY7eh_MM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CM5fY7eh_MM/hqdefault.jpg)"></div>
-        <div class="project-type">Garena · September 2025</div>
+        <div class="project-type">Garena | September 2025</div>
         <div class="project-title">Trouble Night</div>
-        <div class="project-desc">Darkness rises, spells awaken, and the night comes alive… Are you ready to face the unknown?</div>
+        <div class="project-desc">Animated trailer for an event in Free Fire.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Garena Free Fire</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="JSwk05Yhess" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/JSwk05Yhess/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · September 2025</div>
+        <div class="project-type">Supercell | September 2025</div>
         <div class="project-title">Subway Surfers in Brawl Stars!?</div>
-        <div class="project-desc">Jake just ran into the wrong neighborhood. Subway Surfers crashes into the Brawliverse, and nobody&#39;s slowing down.</div>
+        <div class="project-desc">Animated trailer for the Subway Surfers collaboration in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="6E7yKwSU2gs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/6E7yKwSU2gs/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2025</div>
+        <div class="project-type">Supercell | June 2025</div>
         <div class="project-title">Alli is watching you!</div>
-        <div class="project-desc">Animated chaos from the Arena — fast, colorful, and fun to build.</div>
+        <div class="project-desc">Animated short introducing Alli in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
-      </div>
-
-      <div class="project-card" data-client="lego,featured">
-        <div class="project-video yt" data-id="EbIxh8Nq9zU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/EbIxh8Nq9zU/hqdefault.jpg)"></div>
-        <div class="project-type">LEGO · June 2025</div>
-        <div class="project-title">NINJAGO Legends: Monstrosity</div>
-        <div class="project-desc">Ninja, monsters, and LEGO — animated episodes for the NINJAGO Legends series.</div>
-        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Ninjago</span></div>
       </div>
 
       <div class="project-card" data-client="blizzard,featured">
         <div class="project-video yt" data-id="K9n3JVi1Vxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/K9n3JVi1Vxk/hqdefault.jpg)"></div>
-        <div class="project-type">Blizzard · April 2025</div>
+        <div class="project-type">Blizzard | April 2025</div>
         <div class="project-title">Diablo IV x Berserk</div>
-        <div class="project-desc">When Diablo meets Berserk, the art gets intense — and so does the pipeline.</div>
+        <div class="project-desc">Animated trailer for the Diablo IV x Berserk collaboration.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Diablo IV</span></div>
       </div>
 
       <div class="project-card" data-client="ea,featured">
         <div class="project-video yt" data-id="zeVwKk7_XHs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/zeVwKk7_XHs/hqdefault.jpg)"></div>
-        <div class="project-type">EA / Respawn · April 2025</div>
+        <div class="project-type">EA / Respawn | April 2025</div>
         <div class="project-title">Prodigy</div>
-        <div class="project-desc">Season anthem trailer introducing the newest Legend to the Apex Games.</div>
+        <div class="project-desc">Animated season trailer introducing a new Legend in Apex Legends.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="WZtEDwLPyRM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WZtEDwLPyRM/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · April 2025</div>
+        <div class="project-type">Supercell | April 2025</div>
         <div class="project-title">New Champion: Boss Bandit!</div>
-        <div class="project-desc">The Boss Bandit enters the Arena — animated reveal for the newest champion.</div>
+        <div class="project-desc">Animated reveal of the Boss Bandit champion in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="otQ6kAZJXcY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/otQ6kAZJXcY/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-type">Supercell | February 2025</div>
         <div class="project-title">A day in Hay Day</div>
-        <div class="project-desc">A cozy day on the farm — animated short for Hay Day that made me want to garden.</div>
+        <div class="project-desc">Animated short for Hay Day.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Hay Day</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="xRz9DFJQ_j4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/xRz9DFJQ_j4/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-type">Supercell | February 2025</div>
         <div class="project-title">GOOD RANDOMS - My Only Trophy</div>
-        <div class="project-desc">When Brawlers drop a music video, you know it&#39;s going to be ridiculous. It was.</div>
+        <div class="project-desc">Animated music video for Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="ea">
-        <div class="project-video yt" data-id="3WZ5DNIzc_o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/3WZ5DNIzc_o/hqdefault.jpg)"></div>        
-        <div class="project-type">EA / Respawn · January 2025</div>
+        <div class="project-video yt" data-id="3WZ5DNIzc_o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/3WZ5DNIzc_o/hqdefault.jpg)"></div>
+        <div class="project-type">EA / Respawn | January 2025</div>
         <div class="project-title">Takeover</div>
-        <div class="project-desc">High-energy animated trailer for the Takeover season launch.</div>
+        <div class="project-desc">Animated trailer for the Takeover season in Apex Legends.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="DPPcV0-0QWs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/DPPcV0-0QWs/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · January 2025</div>
+        <div class="project-type">Supercell | January 2025</div>
         <div class="project-title">New Card: Rune Giant!</div>
-        <div class="project-desc">The Rune Giant stomps in — card reveal trailer with a lot of ground to shake.</div>
+        <div class="project-desc">Animated reveal of the Rune Giant card in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="cartoonnetwork,featured">
         <div class="project-video yt" data-id="81rXySAfTxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/81rXySAfTxk/hqdefault.jpg)"></div>
-        <div class="project-type">Cartoon Network · Series · 2022–2024</div>
+        <div class="project-type">Cartoon Network | Series | 2022-2024</div>
         <div class="project-title">The Heroic Quest of the Valiant Prince Ivandoe</div>
-        <div class="project-desc">A charming, hand-drawn adventure series — Prince Ivandoe&#39;s heroic (and hilarious) quests.</div>
+        <div class="project-desc">Hand-drawn animated series for Cartoon Network.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Cartoon Network</span></div>
       </div>
 
       <div class="project-card" data-client="disney">
         <div class="project-video yt" data-id="fQGf_nJ1E9w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/fQGf_nJ1E9w/hqdefault.jpg)"></div>
-        <div class="project-type">Disney · Feature · 2024</div>
+        <div class="project-type">Disney | Feature | 2024</div>
         <div class="project-title">Elton John: Never Too Late</div>
-        <div class="project-desc">Animated sequences for Disney&#39;s documentary about Elton John — music, memories, and motion.</div>
+        <div class="project-desc">Animated sequences for Disney&#39;s documentary about Elton John.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Disney</span></div>
       </div>
 
       <div class="project-card" data-client="ea">
         <div class="project-video yt" data-id="9-kNd1_xG9Q" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9-kNd1_xG9Q/hqdefault.jpg)"></div>
-        <div class="project-type">EA / Respawn · November 2024</div>
+        <div class="project-type">EA / Respawn | November 2024</div>
         <div class="project-title">From the Rift</div>
-        <div class="project-desc">A new dimension tears open — animated launch trailer for Season 23.</div>
+        <div class="project-desc">Animated launch trailer for Season 23 of Apex Legends.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="BqPNB9Vxl_w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BqPNB9Vxl_w/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · October 2024</div>
+        <div class="project-type">Supercell | October 2024</div>
         <div class="project-title">JUJU HAS IT ALL!</div>
-        <div class="project-desc">Juju takes center stage — animated short bursting with personality.</div>
+        <div class="project-desc">Animated short introducing Juju in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="Z38nR1BY1dA" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Z38nR1BY1dA/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · September 2024</div>
+        <div class="project-type">Supercell | September 2024</div>
         <div class="project-title">SpongeBob, Brawl Stars, and... JOHN CENA?!</div>
-        <div class="project-desc">SpongeBob, Brawl Stars, John Cena. Yes, really. One of the wildest crossovers I&#39;ve worked on.</div>
+        <div class="project-desc">Animated trailer for the SpongeBob collaboration in Brawl Stars, with John Cena.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="blizzard">
         <div class="project-video yt" data-id="IgY1YrAHYBI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IgY1YrAHYBI/hqdefault.jpg)"></div>
-        <div class="project-type">Blizzard · August 2024</div>
+        <div class="project-type">Blizzard | August 2024</div>
         <div class="project-title">Alleria: Light and Shadow</div>
-        <div class="project-desc">Alleria&#39;s story of light and shadow, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-desc">2D animated short about Alleria for World of Warcraft.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">World of Warcraft</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="RJw3Y-3EBFo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/RJw3Y-3EBFo/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · August 2024</div>
+        <div class="project-type">Supercell | August 2024</div>
         <div class="project-title">PAINT BRAWL STARTS NOW!</div>
-        <div class="project-desc">Brawlers pick up paintbrushes — colorful animated short for a seasonal event.</div>
+        <div class="project-desc">Animated trailer for a new season in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="qY2AgKzldW8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/qY2AgKzldW8/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · July 2024</div>
+        <div class="project-type">Supercell | July 2024</div>
         <div class="project-title">Coming this Tuesday!</div>
-        <div class="project-desc">Something new is coming to the Arena — mysterious card teaser.</div>
+        <div class="project-desc">Teaser for a new card in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="FTYW8NHAkmE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/FTYW8NHAkmE/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-type">Supercell | June 2024</div>
         <div class="project-title">BIG BOI GREEN</div>
-        <div class="project-desc">Big, green, and evolved — animated short for the latest card evolution.</div>
+        <div class="project-desc">Animated short for a card evolution in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="OoUIFQUvYKw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/OoUIFQUvYKw/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-type">Supercell | June 2024</div>
         <div class="project-title">The Goblin Queen's Update has arrived!</div>
-        <div class="project-desc">The Queen&#39;s arrived and she&#39;s brought chaos — update reveal short.</div>
+        <div class="project-desc">Animated short for the Goblin Queen update in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="_VnqcBnWM0k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_VnqcBnWM0k/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-type">Supercell | June 2024</div>
         <div class="project-title">Goblin Queen's Takeover</div>
-        <div class="project-desc">The Goblin Queen takes over — animated trailer for Clash Royale&#39;s big update.</div>
+        <div class="project-desc">Animated trailer for the Goblin Queen update in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="ea">
         <div class="project-video yt" data-id="hDTorbKavfI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/hDTorbKavfI/hqdefault.jpg)"></div>
-        <div class="project-type">EA / Respawn · May 2024</div>
+        <div class="project-type">EA / Respawn | May 2024</div>
         <div class="project-title">Alter | Based on a True Story</div>
-        <div class="project-desc">Alter&#39;s origin story — a character piece about identity and deception.</div>
+        <div class="project-desc">Animated origin story for Alter in Apex Legends.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="gghKJQOhE2M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gghKJQOhE2M/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-type">Supercell | March 2024</div>
         <div class="project-title">DAGGER DUCHESS</div>
-        <div class="project-desc">Dagger Duchess got her own music video. Tower Troops have never looked this cool.</div>
-        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>      
+        <div class="project-desc">Animated music video for the Dagger Duchess in Clash Royale.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="Gx_eiHFLhAE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Gx_eiHFLhAE/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-type">Supercell | March 2024</div>
         <div class="project-title">Goblins organised our bday party...</div>
-        <div class="project-desc">Goblins + birthday party = exactly the kind of mess you&#39;d expect.</div>
+        <div class="project-desc">Animated short for Clash Royale&#39;s birthday.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="vsCeWFs3Qh0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/vsCeWFs3Qh0/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · January 2024</div>
-        <div class="project-title">Animation vs Gameplay — Valk Edition</div>
-        <div class="project-desc">Animation vs. actual gameplay, side by side — Valkyrie edition.</div>
+        <div class="project-type">Supercell | January 2024</div>
+        <div class="project-title">Animation vs Gameplay - Valk Edition</div>
+        <div class="project-desc">Animation and gameplay side by side for the Valkyrie in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
-      <div class="project-card" data-client="netflix,featured">
-        <div class="project-video yt" data-id="2rrRToCVm4I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/2rrRToCVm4I/hqdefault.jpg)"></div>
-        <div class="project-type">Netflix · Series · 2023</div>
-        <div class="project-title">Blue Eye Samurai</div>
-        <div class="project-desc">Three episodes (S1E6, S1E7, S1E8) of Netflix&#39;s Emmy-winning samurai epic — stunning 2D animation meets revenge story.</div>
-        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Netflix</span></div>
-      </div>
       
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="q1r8aoFrla8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/q1r8aoFrla8/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-type">Supercell | December 2023</div>
         <div class="project-title">Are You Naughty or Nice?!</div>
-        <div class="project-desc">Naughty or nice? The Clash Royale crew finds out the hard way.</div>
-        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>        
+        <div class="project-desc">Animated Christmas short for Clash Royale.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="sCxWGlIwZ2k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/sCxWGlIwZ2k/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-type">Supercell | December 2023</div>
         <div class="project-title">New TOWER TROOP Reveal!</div>
-        <div class="project-desc">A whole new unit type enters the Arena — animated reveal for Tower Troops.</div>
+        <div class="project-desc">Animated reveal of Tower Troops in Clash Royale.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="ea">
         <div class="project-video yt" data-id="9fU4PlGIaWU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9fU4PlGIaWU/hqdefault.jpg)"></div>
-        <div class="project-type">EA / Respawn · October 2023</div>
+        <div class="project-type">EA / Respawn | October 2023</div>
         <div class="project-title">Stories from the Outlands</div>
-        <div class="project-desc">A deeply personal story about family, duty, and sacrifice in the Outlands.</div>
+        <div class="project-desc">Animated story from the world of Apex Legends.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
       </div>
 
       <div class="project-card" data-client="mojang">
         <div class="project-video yt" data-id="ESb3ad-1lJE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/ESb3ad-1lJE/hqdefault.jpg)"></div>
-        <div class="project-type">Mojang Studios · September 2023</div>
+        <div class="project-type">Mojang Studios | September 2023</div>
         <div class="project-title">LoFi: Laid back lutes</div>
-        <div class="project-desc">LoFi beats meet Minecraft — a chill animated music video for the lute-loving crowd.</div>
+        <div class="project-desc">Animated lo-fi music video for Minecraft.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Minecraft</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="T16T-odokVk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/T16T-odokVk/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · August 2023</div>
+        <div class="project-type">Supercell | August 2023</div>
         <div class="project-title">Charging up to the Max!</div>
-        <div class="project-desc">High-energy Brawl Stars animation — punchy and full of personality.</div>
+        <div class="project-desc">Animated short for a Brawl Stars update.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="supercell">
         <div class="project-video yt" data-id="u8p7QNz5M7M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/u8p7QNz5M7M/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · June 2023</div>
+        <div class="project-type">Supercell | June 2023</div>
         <div class="project-title">The Legends of Olympus</div>
-        <div class="project-desc">Greek gods meet Brawl Stars — mythological mayhem in the Arena.</div>
+        <div class="project-desc">Animated trailer for the Greek myth season in Brawl Stars.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
       </div>
 
       <div class="project-card" data-client="hoyoverse">
         <div class="project-video yt" data-id="gJe8sAMb3bE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gJe8sAMb3bE/hqdefault.jpg)"></div>
-        <div class="project-type">HoYoverse · June 2023</div>
+        <div class="project-type">HoYoverse | June 2023</div>
         <div class="project-title">Scenery and Sentiment: Liyue</div>
-        <div class="project-desc">A love letter to Liyue — scenic animated short celebrating Genshin Impact&#39;s Chinese-inspired region.</div>
+        <div class="project-desc">Animated short about the Liyue region in Genshin Impact.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin Impact</span></div>
       </div>
 
       <div class="project-card" data-client="supercell,featured">
         <div class="project-video yt" data-id="AQ99iVo_QC4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/AQ99iVo_QC4/hqdefault.jpg)"></div>
-        <div class="project-type">Supercell · December 2022</div>
+        <div class="project-type">Supercell | December 2022</div>
         <div class="project-title">Santa Hog Rider's Workshop</div>
-        <div class="project-desc">Santa Hog Rider builds toys, wrecks towers, and delivers holiday cheer. Classic Clash.</div>
+        <div class="project-desc">Animated holiday short with the Hog Rider for Clash Royale.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Clash Royale</span></div>
       </div>
 
       <div class="project-card" data-client="hoyoverse">
         <div class="project-video yt" data-id="_XwlRU2lrPM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_XwlRU2lrPM/hqdefault.jpg)"></div>
-        <div class="project-type">HoYoverse · October 2022</div>
+        <div class="project-type">HoYoverse | October 2022</div>
         <div class="project-title">Scenery and Sentiment: Mondstadt</div>
-        <div class="project-desc">Windblown fields and warm taverns — a scenic tribute to Genshin&#39;s starting region.</div>
+        <div class="project-desc">Animated short about the Mondstadt region in Genshin Impact.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin Impact</span></div>
       </div>
 
       <div class="project-card" data-client="2k,featured">
         <div class="project-video yt" data-id="SdROhbPZyeE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/SdROhbPZyeE/hqdefault.jpg)"></div>
-        <div class="project-type">2K Games · October 2022</div>
+        <div class="project-type">2K Games | October 2022</div>
         <div class="project-title">Marvel's Midnight Suns: The Salem Sisters</div>
-        <div class="project-desc">The Salem Sisters&#39; dark origin story — animated prequel shorts for Marvel&#39;s tactical RPG.</div>
+        <div class="project-desc">Animated prequel short for Marvel&#39;s Midnight Suns.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
       </div>
 
       <div class="project-card" data-client="2k">
         <div class="project-video yt" data-id="k9IPmCKu7qI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/k9IPmCKu7qI/hqdefault.jpg)"></div>
-        <div class="project-type">2K Games · September 2022</div>
+        <div class="project-type">2K Games | September 2022</div>
         <div class="project-title">Marvel's Midnight Suns: Intro Teaser</div>
-        <div class="project-desc">Setting the stage for Midnight Suns — animated teaser introducing the prequel shorts.</div>
+        <div class="project-desc">Teaser for the animated prequel shorts for Marvel&#39;s Midnight Suns.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
       </div>
 
       <div class="project-card" data-client="riot">
         <div class="project-video yt" data-id="nEFcbKF4WfY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/nEFcbKF4WfY/hqdefault.jpg)"></div>
-        <div class="project-type">Riot Games · June 2022</div>
+        <div class="project-type">Riot Games | June 2022</div>
         <div class="project-title">Return to Valoran City - Star Guardian</div>
-        <div class="project-desc">The Star Guardians return to Valoran City — magical girl energy meets Riot&#39;s animation quality.</div>
+        <div class="project-desc">Animated trailer for the Star Guardian event in League of Legends.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">League of Legends</span></div>
       </div>
 
       <div class="project-card" data-client="riot">
         <div class="project-video yt" data-id="kAr0IfSMe1w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/kAr0IfSMe1w/hqdefault.jpg)"></div>
-        <div class="project-type">Riot Games · February 2022</div>
+        <div class="project-type">Riot Games | February 2022</div>
         <div class="project-title">A Curious Journey</div>
-        <div class="project-desc">New cards, new regions, new adventures in Runeterra.</div>
+        <div class="project-desc">Animated trailer for a Legends of Runeterra expansion.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
       </div>
 
       <div class="project-card" data-client="riot">
         <div class="project-video yt" data-id="IoSTm4jwGEo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IoSTm4jwGEo/hqdefault.jpg)"></div>
-        <div class="project-type">Riot Games · November 2021</div>
+        <div class="project-type">Riot Games | November 2021</div>
         <div class="project-title">Magic Misadventures</div>
-        <div class="project-desc">Spells gone wrong — animated trailer for the Magic Misadventures expansion.</div>
+        <div class="project-desc">Animated trailer for the Magic Misadventures expansion in Legends of Runeterra.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
       </div>
 
       <div class="project-card" data-client="riot">
         <div class="project-video yt" data-id="h3YIKmjFpoo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/h3YIKmjFpoo/hqdefault.jpg)"></div>
-        <div class="project-type">Riot Games · August 2021</div>
+        <div class="project-type">Riot Games | August 2021</div>
         <div class="project-title">Beyond the Bandlewood</div>
-        <div class="project-desc">Bandlewood&#39;s debut — a cinematic introduction to Runeterra&#39;s quirkiest region.</div>
+        <div class="project-desc">Animated trailer for the Bandlewood region in Legends of Runeterra.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
       </div>
 
       <div class="project-card" data-client="moonbug">
         <div class="project-video yt" data-id="54uywpVJF3o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/54uywpVJF3o/hqdefault.jpg)"></div>
-        <div class="project-type">Moonbug · Series · 2020</div>
+        <div class="project-type">Moonbug | Series | 2020</div>
         <div class="project-title">Mia's Magic Playground</div>
-        <div class="project-desc">First 12 episodes of children&#39;s magic — 3D animated series about a girl and her enchanted playground.</div>
+        <div class="project-desc">3D animated children&#39;s series. I helped build the pipeline for the first 12 episodes.</div>
         <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Moonbug</span></div>
       </div>
 
       <div class="project-card" data-client="41shadows">
         <div class="project-video yt" data-id="luuf2JPK2rE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/luuf2JPK2rE/hqdefault.jpg)"></div>
-        <div class="project-type">41Shadows · Feature · 2019</div>
+        <div class="project-type">41Shadows | Feature | 2019</div>
         <div class="project-title">Kaptajn Bimse</div>
-        <div class="project-desc">1,200+ VFX shots through Unity&#39;s HD Render Pipeline — my first big production gig.</div>
+        <div class="project-desc">Danish feature film. I wrote Python and C# automation that processed 1,200+ VFX shots in Unity.</div>
         <div class="project-tags"><span class="tag">Unity Technical Artist</span><span class="tag">41Shadows</span></div>
       </div>
 
@@ -1399,15 +1377,15 @@
 <!-- ── TOOLS ── -->
 <section id="tools">
   <div class="reveal">
-    <div class="section-label">Pipeline Tools</div>
+    <div class="section-label">Side projects</div>
     <h2 class="section-title">import <span class="hl">pipeline_tools</span></h2>
-    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:2.5rem;max-width:640px;">A collection of standalone Python tools I built for animation and VFX production. Each one solves a real problem I&#39;ve encountered on the job. All open source, most built with PySide6.</p>
+    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:2.5rem;max-width:640px;">Small standalone tools I built in my spare time, based on problems I&#39;ve met in production. Most are Python with PySide6. The webhook monitor is TypeScript.</p>
 
     <div class="tools-grid">
 
       <div class="tool-card">
         <div class="tool-name">Webhook Monitor</div>
-        <div class="tool-desc">Real-time web dashboard for pipeline events — publish callbacks, render farm status, delivery confirmations, and validation results. Live filtering and auto-classification.</div>
+        <div class="tool-desc">Real-time web dashboard for pipeline events: publish callbacks, render farm status, delivery confirmations, and validation results. Live filtering and auto-classification.</div>
         <div class="tool-tags">
           <span class="tag">TypeScript</span><span class="tag">Express</span><span class="tag">SSE</span><span class="tag">Real-time</span>
         </div>
@@ -1431,7 +1409,7 @@
 
       <div class="tool-card">
         <div class="tool-name">Batch Renamer</div>
-        <div class="tool-desc">Rename and organize production files with regex, presets, find-and-replace, and numbering — with live preview before applying.</div>
+        <div class="tool-desc">Rename and organize production files with regex, presets, find-and-replace and numbering, with a live preview before applying.</div>
         <div class="tool-tags">
           <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">Regex</span><span class="tag">Presets</span>
         </div>
@@ -1463,7 +1441,7 @@
 
       <div class="tool-card">
         <div class="tool-name">Media Converter</div>
-        <div class="tool-desc">Batch convert between image and video formats. Handles EXR, PNG, JPG, TIFF, MOV, MP4 — the formats you actually use in production.</div>
+        <div class="tool-desc">Batch convert between image and video formats. Handles EXR, PNG, JPG, TIFF, MOV and MP4.</div>
         <div class="tool-tags">
           <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">Pillow</span><span class="tag">FFmpeg</span>
         </div>
@@ -1504,7 +1482,7 @@
     </div>
 
     <div style="text-align:center;margin-top:2rem;">
-      <a href="https://github.com/ademirpasalic/pipeline_tools" target="_blank" class="btn">&#x2192; View on GitHub</a>
+      <a href="https://github.com/ademirpasalic/pipeline_tools" target="_blank" class="btn">&#x2192; pipeline_tools on GitHub</a>
     </div>
 
   </div>
@@ -1629,6 +1607,7 @@
             <textarea name="message" id="contact-message" placeholder="Hey, I've got a pipeline problem..." required></textarea>
           </div>
           <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+          <div id="form-error" style="display:none;color:var(--warn-yellow);font-size:0.82rem;">Please complete the captcha first.</div>
           <button type="submit" class="btn btn-primary" style="align-self:flex-start;">→ Send Message</button>
         </form>
         <div id="form-success" style="display:none;padding:2rem 0;text-align:center;">
@@ -1644,7 +1623,7 @@
 <footer>
   <span>© 2026 Ademir Pasalic. Powered by coffee.</span>
   <span>
-    <a href="mailto:ademir.p@outlook.dk">Email</a> · <a href="https://www.linkedin.com/in/ademir-pasalic/">LinkedIn</a>
+    <a href="mailto:ademir.p@outlook.dk">Email</a> &nbsp;|&nbsp; <a href="https://www.linkedin.com/in/ademir-pasalic/">LinkedIn</a>
   </span>
 </footer>
 
@@ -1714,9 +1693,12 @@
       var subject = 'Connect ' + name;
       document.getElementById('form-subject').value = subject;
       var hCaptchaEl = contactForm.querySelector('textarea[name=h-captcha-response]');
+      var formError = document.getElementById('form-error');
       if (!hCaptchaEl || !hCaptchaEl.value) {
+        formError.style.display = 'block';
         return;
       }
+      formError.style.display = 'none';
       var data = JSON.stringify({
         access_key: '0728dcea-001c-4611-b64c-528b73f38f22',
         subject: subject,
