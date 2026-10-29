@@ -1,0 +1,1786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>Ademir Pasalic - Senior Software Engineer</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Space+Grotesk:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f0f18;
+    --bg-card: #12121e;
+    --bg-card-hover: #181828;
+    --accent: #00e5a0;
+    --accent-dim: #00e5a020;
+    --accent-mid: #00e5a060;
+    --text-primary: #e0e0e8;
+    --text-secondary: #9a9aae;
+    --text-muted: #5e5e74;
+    --border: #1e1e30;
+    --border-hover: #2a2a40;
+    --terminal-green: #00e5a0;
+    --error-red: #ff4060;
+    --warn-yellow: #ffc040;
+    --info-blue: #40a0ff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-dim) var(--bg-primary);
+  }
+
+  body {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  /* ── Grid background ── */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 60px 60px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background: rgba(10, 10, 15, 0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+  }
+
+  .nav-logo {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--accent);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+  }
+  .nav-logo span { color: var(--text-muted); }
+
+  .nav-links { display: flex; gap: 0.25rem; list-style: none; }
+
+  .nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 0.4rem 0.75rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+  }
+  .nav-links a:hover {
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .status-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--accent-mid); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4.5rem 2rem;
+  }
+
+  .section-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .section-label::before {
+    content: '//';
+    color: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 2rem;
+  }
+  .section-title .hl { color: var(--accent); }
+
+  /* ── HERO ── */
+  #hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: center;
+    padding-top: calc(60px + 6rem);
+    padding-bottom: 4rem;
+  }
+
+  .hero-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    animation: fadeUp 0.6s ease forwards 0.6s;
+  }
+  .hero-photo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-mid);
+    box-shadow: 0 0 60px var(--accent-dim);
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+  }
+  .hero-stats .stat-card { padding: 1rem; text-align: center; }
+  .hero-stats .stat-number { font-size: 1.5rem; }
+
+  .hero-pretitle {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    animation: fadeUp 0.6s ease forwards 0.4s;
+  }
+  .hero-name .cursor {
+    display: inline-block;
+    width: 3px;
+    height: 0.9em;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: baseline;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-role {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease forwards 0.6s;
+  }
+  .hero-role strong { color: var(--text-primary); font-weight: 600; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp 0.6s ease forwards 0.8s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.7rem 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-decoration: none;
+    transition: all 0.25s;
+    cursor: pointer;
+    background: transparent;
+    color: var(--text-secondary);
+  }
+  .btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-dim);
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+    font-weight: 500;
+  }
+  .btn-primary:hover {
+    background: transparent;
+    color: var(--accent);
+  }
+
+  .hero-terminal {
+    margin-top: 3rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem 1.5rem;
+    max-width: 600px;
+    animation: fadeUp 0.6s ease forwards 1s;
+  }
+
+  .terminal-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+  .terminal-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+  }
+  .terminal-dot.r { background: var(--error-red); }
+  .terminal-dot.y { background: var(--warn-yellow); }
+  .terminal-dot.g { background: var(--accent); }
+
+  .terminal-line {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+  }
+  .terminal-line .prompt { color: var(--accent); }
+  .terminal-line .cmd { color: var(--text-primary); }
+  .terminal-line .flag { color: var(--info-blue); }
+  .terminal-line .str { color: var(--warn-yellow); }
+  .terminal-line .comment { color: var(--text-muted); font-style: italic; }
+
+  @keyframes fadeUp {
+    from { transform: translateY(20px); }
+    to   { transform: translateY(0); }
+  }
+
+  /* ── ABOUT ── */
+  .about-grid {
+    max-width: 760px;
+  }
+
+  .about-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profile-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    object-fit: cover;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+  }
+  .profile-photo:hover {
+    border-color: var(--accent);
+  }
+
+  .about-header-text {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+  .about-header-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .about-header-role {
+    font-size: 0.78rem;
+    color: var(--accent);
+    margin-top: 0.2rem;
+  }
+  .about-header-location {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.15rem;
+  }
+
+  .about-text p {
+    color: var(--text-secondary);
+    font-size: 1.02rem;
+    margin-bottom: 1.1rem;
+  }
+  .about-text a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-dim);
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.25rem;
+    transition: all 0.3s;
+  }
+  .stat-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 30px var(--accent-dim);
+    transform: translateY(-2px);
+  }
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .stat-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-top: 0.25rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── PROJECTS ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    color: inherit;
+  }
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+  }
+  .project-card:hover {
+    border-color: var(--border-hover);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  }
+  .project-card:hover::before { opacity: 1; }
+
+  .project-video {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%;
+    margin-bottom: 0.75rem;
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-secondary);
+  }
+  .project-video iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .project-video.yt {
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  .project-video.yt::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    margin: -14px 0 0 -9px;
+    border-style: solid;
+    border-width: 14px 0 14px 22px;
+    border-color: transparent transparent transparent var(--bg-primary);
+    z-index: 1;
+  }
+  .project-video.yt::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 60px; height: 60px;
+    margin: -30px 0 0 -30px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.85;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .project-card:hover .project-video.yt::before { opacity: 1; transform: scale(1.08); }
+  .project-video.playing::before, .project-video.playing::after { display: none; }
+
+  .project-type {
+    font-size: 0.65rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.05rem;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .project-desc {
+    font-size: 0.92rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.6rem;
+    background: var(--accent-dim);
+    color: var(--accent);
+    border-radius: 3px;
+    letter-spacing: 0.02em;
+  }
+
+  .show-more-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .show-more-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    padding: 0.75rem 2rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.25s;
+    letter-spacing: 0.03em;
+  }
+  .show-more-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 20px var(--accent-dim);
+  }
+  .project-card.hidden-card {
+    display: none;
+  }
+
+  .project-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .filter-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    padding: 0.35rem 0.85rem;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ── SKILLS ── */
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.5rem;
+    transition: border-color 0.3s;
+  }
+  .skill-group:hover {
+    border-color: var(--border-hover);
+  }
+
+  .skill-group-title {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-chip {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.72rem;
+    padding: 0.3rem 0.7rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    line-height: 1.4;
+  }
+  .skill-chip:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .skill-chip.primary {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  /* ── CONTACT ── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .contact-text p {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    transition: all 0.3s;
+  }
+  .contact-link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateX(4px);
+  }
+  .contact-link-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .contact-link-value {
+    margin-top: 0.15rem;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-primary);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+  }
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  footer a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  footer a:hover { color: var(--accent); }
+
+/* ── TOOLS ── */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .tool-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1.1rem 1.25rem;
+    transition: all 0.3s;
+    position: relative;
+  }
+  .tool-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0, 229, 160, 0.07);
+  }
+
+  .tool-icon {
+    font-size: 1.6rem;
+    margin-bottom: 0.75rem;
+    line-height: 1;
+  }
+
+  .tool-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+  }
+
+  .tool-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .tool-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .tool-screenshot {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-top: calc(60px + 3rem); }
+    .hero-side { order: -1; flex-direction: row; align-items: center; }
+    .hero-photo { width: 110px; height: 110px; flex-shrink: 0; }
+  }
+
+  @media (max-width: 768px) {
+    .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .hero-side { flex-direction: column; align-items: flex-start; }
+    .hero-stats .stat-card { padding: 0.75rem 0.5rem; }
+    .hero-stats .stat-number { font-size: 1.25rem; }
+    .nav-status { display: none; }
+    .nav-inner { flex-wrap: wrap; height: auto; padding: 0.6rem 0; gap: 0.4rem; }
+    .nav-logo { font-size: 0.8rem; }
+    .nav-links { flex-wrap: wrap; gap: 0.15rem; }
+    .nav-links a { padding: 0.3rem 0.5rem; font-size: 0.65rem; }
+    section { padding: 4rem 1.25rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .tools-grid { grid-template-columns: 1fr; }
+    .skills-container { grid-template-columns: 1fr; }
+    .project-filters { gap: 0.35rem; }
+    .filter-btn { font-size: 0.6rem; padding: 0.25rem 0.6rem; }
+    .hero-name { font-size: clamp(2rem, 8vw, 3rem); }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-inner">
+    <a onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})" class="nav-logo" style="cursor:pointer;">~/ademir_pasalic <span>$</span></a>
+    <ul class="nav-links">
+      <li><a onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">about</a></li>
+      <li><a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">projects</a></li>
+      <li><a onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">tools</a></li>
+      <li><a onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">skills</a></li>
+      <li><a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">contact</a></li>
+    </ul>
+    <div class="nav-status">
+      <div class="status-dot"></div>
+      online
+    </div>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-main">
+    <div class="hero-pretitle">$ whoami</div>
+    <h1 class="hero-name">Ademir Pasalic<span class="cursor"></span></h1>
+    <p class="hero-role">
+      <strong>Senior Software Engineer</strong> with 7+ years in animation, film and games. I build Python tools, data pipelines and automation that keep production data in one place, and I help teams move onto new systems without stopping production.
+    </p>
+    <div class="hero-cta">
+      <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" class="btn btn-primary">&rarr; View Projects</a>
+      <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn">Get In Touch</a>
+    </div>
+  </div>
+  <div class="hero-side">
+    <img src="profile.png" alt="Ademir Pasalic" class="hero-photo">
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-number">7+</div><div class="stat-label">Years in production</div></div>
+      <div class="stat-card"><div class="stat-number">58</div><div class="stat-label">Productions</div></div>
+      <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">Major clients</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About</div>
+    <h2 class="section-title">def <span class="hl">about_me</span>():</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a Senior Software Engineer at <a href="https://suncreature.com">Sun Creature</a> in Copenhagen, and I've worked in animation, film and games for 7+ years. I build Python tools and services that move production data between ShotGrid, the file server and the people who use them.
+        </p>
+        <p>
+          I led the studio's move from scattered spreadsheets to one shared source of truth in ShotGrid, without stopping production. Most of my users are artists and producers. I want artists to focus on the creative work and producers on their teams, schedules and budgets. That only works if the data is easy to find, read and use. I also script for the tools artists use every day, like Maya, Blender, Adobe CC, TVPaint and Toon Boom Harmony.
+        </p>
+        <p>
+          I care a lot about doing right by the people I work with. I document things properly, I communicate early, and I make sure nobody gets stuck waiting on me. I've been lucky enough to ship work for Netflix, Blizzard, Disney, Riot Games, Supercell, EA, The LEGO Group and others.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PROJECTS ── -->
+<section id="projects">
+  <div class="reveal">
+    <div class="section-label">Projects</div>
+    <h2 class="section-title">ls <span class="hl">~/projects</span></h2>
+
+    <div class="project-filters">
+      <button class="filter-btn" onclick="filterProjects('all')">All</button>
+      <button class="filter-btn active" onclick="filterProjects('featured')">Featured</button>
+      <button class="filter-btn" onclick="filterProjects('lego')">LEGO</button>
+      <button class="filter-btn" onclick="filterProjects('netflix')">Netflix</button>
+      <button class="filter-btn" onclick="filterProjects('disney')">Disney</button>
+      <button class="filter-btn" onclick="filterProjects('epic-games')">Epic Games</button>
+      <button class="filter-btn" onclick="filterProjects('mojang')">Mojang</button>
+      <button class="filter-btn" onclick="filterProjects('cartoonnetwork')">Cartoon Network</button>
+      <button class="filter-btn" onclick="filterProjects('moonbug')">Moonbug</button>
+      <button class="filter-btn" onclick="filterProjects('supercell')">Supercell</button>
+      <button class="filter-btn" onclick="filterProjects('blizzard')">Blizzard</button>
+      <button class="filter-btn" onclick="filterProjects('riot')">Riot Games</button>
+      <button class="filter-btn" onclick="filterProjects('ea')">EA / Respawn</button>
+      <button class="filter-btn" onclick="filterProjects('2k')">2K Games</button>
+      <button class="filter-btn" onclick="filterProjects('hoyoverse')">HoYoverse</button>
+      <button class="filter-btn" onclick="filterProjects('wizards-of-the-coast')">Wizards of the Coast</button>
+      <button class="filter-btn" onclick="filterProjects('garena')">Garena</button>
+      <button class="filter-btn" onclick="filterProjects('oaklandroots')">Oakland Roots</button>
+      <button class="filter-btn" onclick="filterProjects('41shadows')">41Shadows</button>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="project-card" data-client="wizards-of-the-coast">
+        <div class="project-video yt" data-id="9CtTscZmdw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9CtTscZmdw0/hqdefault.jpg)"></div>
+        <div class="project-type">Wizards of the Coast · July 2026</div>
+        <div class="project-title">Dungeons & Dragons: Dark Sun</div>
+        <div class="project-desc">Beneath a fractured sun, bear witness to the bloodshed and carnage that defines a dying world.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Dungeons & Dragons</span></div>      
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="BWJYT9t1Ieg" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BWJYT9t1Ieg/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2026</div>
+        <div class="project-title">GET MONEY MONEY MONEY</div>
+        <div class="project-desc">NanoNoodles are a certified infinite coin trick!</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="Io1ZL0rc2Ac" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Io1ZL0rc2Ac/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · April 2026</div>
+        <div class="project-title">Brawl Stars x ElectricCallboy - HYPERCHARGED</div>
+        <div class="project-desc">Watch and listen to "HYPERCHARGED"! The newest song by Electric Callboy made to announce Damian!</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+      </div>
+
+      <div class="project-card" data-client="epic-games">
+        <div class="project-video yt" data-id="5QBlmbkeF3I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/5QBlmbkeF3I/hqdefault.jpg)"></div>
+        <div class="project-type">Epic Games · April 2026</div>
+        <div class="project-title">Laufey's Distinct Sound</div>
+        <div class="project-desc">It was only A Matter of Time, right Laufey?</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Fortnite</span></div>      
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="WuwxkkSSeug" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WuwxkkSSeug/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · February 2026</div>
+        <div class="project-title">Sirius - No more Brawl Stars!</div>
+        <div class="project-desc">Sirius, The First Star of Starr Park is here.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+      </div>
+
+      <div class="project-card" data-client="blizzard,featured">
+        <div class="project-video yt" data-id="QKVSzP_sEU8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/QKVSzP_sEU8/hqdefault.jpg)"></div>
+        <div class="project-type">Blizzard · February 2026</div>
+        <div class="project-title">Arator: Son of Two Worlds</div>
+        <div class="project-desc">Arator&#39;s story of duality and legacy, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">World of Warcraft</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="d-NtBVjvP6Y" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/d-NtBVjvP6Y/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · February 2026</div>
+        <div class="project-title">Sirius - The Untold Lore</div>
+        <div class="project-desc">Villains aren&#39;t born; they&#39;re made.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>      
+      </div>
+
+      <div class="project-card" data-client="oaklandroots">
+        <div class="project-video yt" data-id="yX736VzWT-s" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/yX736VzWT-s/hqdefault.jpg)"></div>
+        <div class="project-type">Oakland Roots · February 2026</div>
+        <div class="project-title">The Oakness Awakens</div>
+        <div class="project-desc">2026 Oakland Roots SC Jerseys</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Oakland Roots</span></div>
+      </div>
+
+      <div class="project-card" data-client="blizzard">
+        <div class="project-video yt" data-id="CoJgQA4Uhks" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CoJgQA4Uhks/hqdefault.jpg)"></div>
+        <div class="project-type">Blizzard · February 2026</div>
+        <div class="project-title">Liadrin: All That is Sacred</div>
+        <div class="project-desc">Liadrin&#39;s story of loss, despair, and retribution, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">World of Warcraft</span></div>
+      </div>
+
+      <div class="project-card" data-client="netflix">
+        <div class="project-video yt" data-id="4A9iFjaKeMk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4A9iFjaKeMk/hqdefault.jpg)"></div>
+        <div class="project-type">Netflix · Series 2025</div>
+        <div class="project-title">Splinter Cell: Deathwatch</div>
+        <div class="project-desc">Sam Fisher goes animated — full first season of Netflix&#39;s Splinter Cell adaptation.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Splinter Cell</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="tR872KZ_zAk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/tR872KZ_zAk/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · November 2025</div>
+        <div class="project-title">Brawl Stars x Stranger Things</div>
+        <div class="project-desc">The Upside Down swallows the Brawliverse. Eleven didn&#39;t come alone, and the Brawlers aren&#39;t ready.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="riot,featured">
+        <div class="project-video yt" data-id="4L6UfKr8qSE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4L6UfKr8qSE/hqdefault.jpg)"></div>
+        <div class="project-type">Riot Games · October 2025</div>
+        <div class="project-title">Miss This Life ft. NINGNING of aespa & Fairlane</div>
+        <div class="project-desc">You are Wild Rift. And Wild Rift is you. Happy 5th anniversary  to us.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">League of Legends: Wild Rift</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="GEMaj3iOQw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/GEMaj3iOQw0/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · October 2025</div>
+        <div class="project-title">Brawl Stars is turning upside down!</div>
+        <div class="project-desc">Something wicked is coming to the Brawliverse. A mysterious teaser that keeps you guessing.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="L30jSz9BEEw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/L30jSz9BEEw/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · September 2025</div>
+        <div class="project-title">Brawl-O-Ween is coming!</div>
+        <div class="project-desc">Spooky season hits the Brawliverse — ghosts, ghouls, and Brawlers dressed to haunt.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="garena">
+        <div class="project-video yt" data-id="CM5fY7eh_MM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CM5fY7eh_MM/hqdefault.jpg)"></div>
+        <div class="project-type">Garena · September 2025</div>
+        <div class="project-title">Trouble Night</div>
+        <div class="project-desc">Darkness rises, spells awaken, and the night comes alive… Are you ready to face the unknown?</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Garena Free Fire</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="JSwk05Yhess" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/JSwk05Yhess/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · September 2025</div>
+        <div class="project-title">Subway Surfers in Brawl Stars!?</div>
+        <div class="project-desc">Jake just ran into the wrong neighborhood. Subway Surfers crashes into the Brawliverse, and nobody&#39;s slowing down.</div>
+        <div class="project-tags"><span class="tag">Senior Software Engineer</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="6E7yKwSU2gs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/6E7yKwSU2gs/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2025</div>
+        <div class="project-title">Alli is watching you!</div>
+        <div class="project-desc">Animated chaos from the Arena — fast, colorful, and fun to build.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="lego,featured">
+        <div class="project-video yt" data-id="EbIxh8Nq9zU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/EbIxh8Nq9zU/hqdefault.jpg)"></div>
+        <div class="project-type">LEGO · June 2025</div>
+        <div class="project-title">NINJAGO Legends: Monstrosity</div>
+        <div class="project-desc">Ninja, monsters, and LEGO — animated episodes for the NINJAGO Legends series.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Ninjago</span></div>
+      </div>
+
+      <div class="project-card" data-client="blizzard,featured">
+        <div class="project-video yt" data-id="K9n3JVi1Vxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/K9n3JVi1Vxk/hqdefault.jpg)"></div>
+        <div class="project-type">Blizzard · April 2025</div>
+        <div class="project-title">Diablo IV x Berserk</div>
+        <div class="project-desc">When Diablo meets Berserk, the art gets intense — and so does the pipeline.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Diablo IV</span></div>
+      </div>
+
+      <div class="project-card" data-client="ea,featured">
+        <div class="project-video yt" data-id="zeVwKk7_XHs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/zeVwKk7_XHs/hqdefault.jpg)"></div>
+        <div class="project-type">EA / Respawn · April 2025</div>
+        <div class="project-title">Prodigy</div>
+        <div class="project-desc">Season anthem trailer introducing the newest Legend to the Apex Games.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="WZtEDwLPyRM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WZtEDwLPyRM/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · April 2025</div>
+        <div class="project-title">New Champion: Boss Bandit!</div>
+        <div class="project-desc">The Boss Bandit enters the Arena — animated reveal for the newest champion.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="otQ6kAZJXcY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/otQ6kAZJXcY/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-title">A day in Hay Day</div>
+        <div class="project-desc">A cozy day on the farm — animated short for Hay Day that made me want to garden.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Hay Day</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="xRz9DFJQ_j4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/xRz9DFJQ_j4/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · February 2025</div>
+        <div class="project-title">GOOD RANDOMS - My Only Trophy</div>
+        <div class="project-desc">When Brawlers drop a music video, you know it&#39;s going to be ridiculous. It was.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="ea">
+        <div class="project-video yt" data-id="3WZ5DNIzc_o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/3WZ5DNIzc_o/hqdefault.jpg)"></div>        
+        <div class="project-type">EA / Respawn · January 2025</div>
+        <div class="project-title">Takeover</div>
+        <div class="project-desc">High-energy animated trailer for the Takeover season launch.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="DPPcV0-0QWs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/DPPcV0-0QWs/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · January 2025</div>
+        <div class="project-title">New Card: Rune Giant!</div>
+        <div class="project-desc">The Rune Giant stomps in — card reveal trailer with a lot of ground to shake.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="cartoonnetwork,featured">
+        <div class="project-video yt" data-id="81rXySAfTxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/81rXySAfTxk/hqdefault.jpg)"></div>
+        <div class="project-type">Cartoon Network · Series · 2022–2024</div>
+        <div class="project-title">The Heroic Quest of the Valiant Prince Ivandoe</div>
+        <div class="project-desc">A charming, hand-drawn adventure series — Prince Ivandoe&#39;s heroic (and hilarious) quests.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Cartoon Network</span></div>
+      </div>
+
+      <div class="project-card" data-client="disney">
+        <div class="project-video yt" data-id="fQGf_nJ1E9w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/fQGf_nJ1E9w/hqdefault.jpg)"></div>
+        <div class="project-type">Disney · Feature · 2024</div>
+        <div class="project-title">Elton John: Never Too Late</div>
+        <div class="project-desc">Animated sequences for Disney&#39;s documentary about Elton John — music, memories, and motion.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Disney</span></div>
+      </div>
+
+      <div class="project-card" data-client="ea">
+        <div class="project-video yt" data-id="9-kNd1_xG9Q" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9-kNd1_xG9Q/hqdefault.jpg)"></div>
+        <div class="project-type">EA / Respawn · November 2024</div>
+        <div class="project-title">From the Rift</div>
+        <div class="project-desc">A new dimension tears open — animated launch trailer for Season 23.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="BqPNB9Vxl_w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BqPNB9Vxl_w/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · October 2024</div>
+        <div class="project-title">JUJU HAS IT ALL!</div>
+        <div class="project-desc">Juju takes center stage — animated short bursting with personality.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="Z38nR1BY1dA" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Z38nR1BY1dA/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · September 2024</div>
+        <div class="project-title">SpongeBob, Brawl Stars, and... JOHN CENA?!</div>
+        <div class="project-desc">SpongeBob, Brawl Stars, John Cena. Yes, really. One of the wildest crossovers I&#39;ve worked on.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="blizzard">
+        <div class="project-video yt" data-id="IgY1YrAHYBI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IgY1YrAHYBI/hqdefault.jpg)"></div>
+        <div class="project-type">Blizzard · August 2024</div>
+        <div class="project-title">Alleria: Light and Shadow</div>
+        <div class="project-desc">Alleria&#39;s story of light and shadow, brought to life through Sun Creature&#39;s 2D animation.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">World of Warcraft</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="RJw3Y-3EBFo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/RJw3Y-3EBFo/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · August 2024</div>
+        <div class="project-title">PAINT BRAWL STARTS NOW!</div>
+        <div class="project-desc">Brawlers pick up paintbrushes — colorful animated short for a seasonal event.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="qY2AgKzldW8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/qY2AgKzldW8/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · July 2024</div>
+        <div class="project-title">Coming this Tuesday!</div>
+        <div class="project-desc">Something new is coming to the Arena — mysterious card teaser.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="FTYW8NHAkmE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/FTYW8NHAkmE/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">BIG BOI GREEN</div>
+        <div class="project-desc">Big, green, and evolved — animated short for the latest card evolution.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="OoUIFQUvYKw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/OoUIFQUvYKw/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">The Goblin Queen's Update has arrived!</div>
+        <div class="project-desc">The Queen&#39;s arrived and she&#39;s brought chaos — update reveal short.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="_VnqcBnWM0k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_VnqcBnWM0k/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2024</div>
+        <div class="project-title">Goblin Queen's Takeover</div>
+        <div class="project-desc">The Goblin Queen takes over — animated trailer for Clash Royale&#39;s big update.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="ea">
+        <div class="project-video yt" data-id="hDTorbKavfI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/hDTorbKavfI/hqdefault.jpg)"></div>
+        <div class="project-type">EA / Respawn · May 2024</div>
+        <div class="project-title">Alter | Based on a True Story</div>
+        <div class="project-desc">Alter&#39;s origin story — a character piece about identity and deception.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="gghKJQOhE2M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gghKJQOhE2M/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-title">DAGGER DUCHESS</div>
+        <div class="project-desc">Dagger Duchess got her own music video. Tower Troops have never looked this cool.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>      
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="Gx_eiHFLhAE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Gx_eiHFLhAE/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · March 2024</div>
+        <div class="project-title">Goblins organised our bday party...</div>
+        <div class="project-desc">Goblins + birthday party = exactly the kind of mess you&#39;d expect.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="vsCeWFs3Qh0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/vsCeWFs3Qh0/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · January 2024</div>
+        <div class="project-title">Animation vs Gameplay — Valk Edition</div>
+        <div class="project-desc">Animation vs. actual gameplay, side by side — Valkyrie edition.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="netflix,featured">
+        <div class="project-video yt" data-id="2rrRToCVm4I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/2rrRToCVm4I/hqdefault.jpg)"></div>
+        <div class="project-type">Netflix · Series · 2023</div>
+        <div class="project-title">Blue Eye Samurai</div>
+        <div class="project-desc">Three episodes (S1E6, S1E7, S1E8) of Netflix&#39;s Emmy-winning samurai epic — stunning 2D animation meets revenge story.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Netflix</span></div>
+      </div>
+      
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="q1r8aoFrla8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/q1r8aoFrla8/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-title">Are You Naughty or Nice?!</div>
+        <div class="project-desc">Naughty or nice? The Clash Royale crew finds out the hard way.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>        
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="sCxWGlIwZ2k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/sCxWGlIwZ2k/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · December 2023</div>
+        <div class="project-title">New TOWER TROOP Reveal!</div>
+        <div class="project-desc">A whole new unit type enters the Arena — animated reveal for Tower Troops.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="ea">
+        <div class="project-video yt" data-id="9fU4PlGIaWU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9fU4PlGIaWU/hqdefault.jpg)"></div>
+        <div class="project-type">EA / Respawn · October 2023</div>
+        <div class="project-title">Stories from the Outlands</div>
+        <div class="project-desc">A deeply personal story about family, duty, and sacrifice in the Outlands.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Apex Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="mojang">
+        <div class="project-video yt" data-id="ESb3ad-1lJE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/ESb3ad-1lJE/hqdefault.jpg)"></div>
+        <div class="project-type">Mojang Studios · September 2023</div>
+        <div class="project-title">LoFi: Laid back lutes</div>
+        <div class="project-desc">LoFi beats meet Minecraft — a chill animated music video for the lute-loving crowd.</div>
+        <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Minecraft</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="T16T-odokVk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/T16T-odokVk/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · August 2023</div>
+        <div class="project-title">Charging up to the Max!</div>
+        <div class="project-desc">High-energy Brawl Stars animation — punchy and full of personality.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell">
+        <div class="project-video yt" data-id="u8p7QNz5M7M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/u8p7QNz5M7M/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · June 2023</div>
+        <div class="project-title">The Legends of Olympus</div>
+        <div class="project-desc">Greek gods meet Brawl Stars — mythological mayhem in the Arena.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Brawl Stars</span></div>
+      </div>
+
+      <div class="project-card" data-client="hoyoverse">
+        <div class="project-video yt" data-id="gJe8sAMb3bE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gJe8sAMb3bE/hqdefault.jpg)"></div>
+        <div class="project-type">HoYoverse · June 2023</div>
+        <div class="project-title">Scenery and Sentiment: Liyue</div>
+        <div class="project-desc">A love letter to Liyue — scenic animated short celebrating Genshin Impact&#39;s Chinese-inspired region.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin Impact</span></div>
+      </div>
+
+      <div class="project-card" data-client="supercell,featured">
+        <div class="project-video yt" data-id="AQ99iVo_QC4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/AQ99iVo_QC4/hqdefault.jpg)"></div>
+        <div class="project-type">Supercell · December 2022</div>
+        <div class="project-title">Santa Hog Rider's Workshop</div>
+        <div class="project-desc">Santa Hog Rider builds toys, wrecks towers, and delivers holiday cheer. Classic Clash.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Clash Royale</span></div>
+      </div>
+
+      <div class="project-card" data-client="hoyoverse">
+        <div class="project-video yt" data-id="_XwlRU2lrPM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_XwlRU2lrPM/hqdefault.jpg)"></div>
+        <div class="project-type">HoYoverse · October 2022</div>
+        <div class="project-title">Scenery and Sentiment: Mondstadt</div>
+        <div class="project-desc">Windblown fields and warm taverns — a scenic tribute to Genshin&#39;s starting region.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Genshin Impact</span></div>
+      </div>
+
+      <div class="project-card" data-client="2k,featured">
+        <div class="project-video yt" data-id="SdROhbPZyeE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/SdROhbPZyeE/hqdefault.jpg)"></div>
+        <div class="project-type">2K Games · October 2022</div>
+        <div class="project-title">Marvel's Midnight Suns: The Salem Sisters</div>
+        <div class="project-desc">The Salem Sisters&#39; dark origin story — animated prequel shorts for Marvel&#39;s tactical RPG.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
+      </div>
+
+      <div class="project-card" data-client="2k">
+        <div class="project-video yt" data-id="k9IPmCKu7qI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/k9IPmCKu7qI/hqdefault.jpg)"></div>
+        <div class="project-type">2K Games · September 2022</div>
+        <div class="project-title">Marvel's Midnight Suns: Intro Teaser</div>
+        <div class="project-desc">Setting the stage for Midnight Suns — animated teaser introducing the prequel shorts.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Marvel</span></div>
+      </div>
+
+      <div class="project-card" data-client="riot">
+        <div class="project-video yt" data-id="nEFcbKF4WfY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/nEFcbKF4WfY/hqdefault.jpg)"></div>
+        <div class="project-type">Riot Games · June 2022</div>
+        <div class="project-title">Return to Valoran City - Star Guardian</div>
+        <div class="project-desc">The Star Guardians return to Valoran City — magical girl energy meets Riot&#39;s animation quality.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">League of Legends</span></div>
+      </div>
+
+      <div class="project-card" data-client="riot">
+        <div class="project-video yt" data-id="kAr0IfSMe1w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/kAr0IfSMe1w/hqdefault.jpg)"></div>
+        <div class="project-type">Riot Games · February 2022</div>
+        <div class="project-title">A Curious Journey</div>
+        <div class="project-desc">New cards, new regions, new adventures in Runeterra.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
+      </div>
+
+      <div class="project-card" data-client="riot">
+        <div class="project-video yt" data-id="IoSTm4jwGEo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IoSTm4jwGEo/hqdefault.jpg)"></div>
+        <div class="project-type">Riot Games · November 2021</div>
+        <div class="project-title">Magic Misadventures</div>
+        <div class="project-desc">Spells gone wrong — animated trailer for the Magic Misadventures expansion.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
+      </div>
+
+      <div class="project-card" data-client="riot">
+        <div class="project-video yt" data-id="h3YIKmjFpoo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/h3YIKmjFpoo/hqdefault.jpg)"></div>
+        <div class="project-type">Riot Games · August 2021</div>
+        <div class="project-title">Beyond the Bandlewood</div>
+        <div class="project-desc">Bandlewood&#39;s debut — a cinematic introduction to Runeterra&#39;s quirkiest region.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Legends of Runeterra</span></div>
+      </div>
+
+      <div class="project-card" data-client="moonbug">
+        <div class="project-video yt" data-id="54uywpVJF3o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/54uywpVJF3o/hqdefault.jpg)"></div>
+        <div class="project-type">Moonbug · Series · 2020</div>
+        <div class="project-title">Mia's Magic Playground</div>
+        <div class="project-desc">First 12 episodes of children&#39;s magic — 3D animated series about a girl and her enchanted playground.</div>
+        <div class="project-tags"><span class="tag">Technical Director</span><span class="tag">Moonbug</span></div>
+      </div>
+
+      <div class="project-card" data-client="41shadows">
+        <div class="project-video yt" data-id="luuf2JPK2rE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/luuf2JPK2rE/hqdefault.jpg)"></div>
+        <div class="project-type">41Shadows · Feature · 2019</div>
+        <div class="project-title">Kaptajn Bimse</div>
+        <div class="project-desc">1,200+ VFX shots through Unity&#39;s HD Render Pipeline — my first big production gig.</div>
+        <div class="project-tags"><span class="tag">Unity Technical Artist</span><span class="tag">41Shadows</span></div>
+      </div>
+
+    </div>
+    <div class="show-more-wrap">
+      <button class="show-more-btn" onclick="toggleProjects()">↓ Show all projects (30+)</button>
+    </div>
+  </div>
+</section>
+
+<!-- ── TOOLS ── -->
+<section id="tools">
+  <div class="reveal">
+    <div class="section-label">Pipeline Tools</div>
+    <h2 class="section-title">import <span class="hl">pipeline_tools</span></h2>
+    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:2.5rem;max-width:640px;">A collection of standalone Python tools I built for animation and VFX production. Each one solves a real problem I&#39;ve encountered on the job. All open source, most built with PySide6.</p>
+
+    <div class="tools-grid">
+
+      <div class="tool-card">
+        <div class="tool-name">Webhook Monitor</div>
+        <div class="tool-desc">Real-time web dashboard for pipeline events — publish callbacks, render farm status, delivery confirmations, and validation results. Live filtering and auto-classification.</div>
+        <div class="tool-tags">
+          <span class="tag">TypeScript</span><span class="tag">Express</span><span class="tag">SSE</span><span class="tag">Real-time</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Asset Validator</div>
+        <div class="tool-desc">Checks naming conventions, folder structure, and file metadata against configurable rulesets. Catches problems before they reach downstream.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">YAML</span><span class="tag">Regex</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Scene Publisher</div>
+        <div class="tool-desc">Lightweight publish system with automatic versioning, thumbnail generation, status tracking, and configurable targets.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">JSON</span><span class="tag">Versioning</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Batch Renamer</div>
+        <div class="tool-desc">Rename and organize production files with regex, presets, find-and-replace, and numbering — with live preview before applying.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">Regex</span><span class="tag">Presets</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Production Tracker</div>
+        <div class="tool-desc">Shot and asset status dashboard with filtering, artist assignment, progress stats, and status color coding.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">JSON</span><span class="tag">Dashboard</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">DCC Launcher</div>
+        <div class="tool-desc">Launch DCCs with the right environment per project. Manages software versions, env vars, and configs in one place.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">YAML</span><span class="tag">Env Vars</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Pipeline Config Manager</div>
+        <div class="tool-desc">Visual editor for YAML/JSON pipeline configs. Supports hierarchical settings, environment overrides, and schema validation.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">YAML</span><span class="tag">JSON</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Media Converter</div>
+        <div class="tool-desc">Batch convert between image and video formats. Handles EXR, PNG, JPG, TIFF, MOV, MP4 — the formats you actually use in production.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">Pillow</span><span class="tag">FFmpeg</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Frames &#x2194; Video</div>
+        <div class="tool-desc">Convert image sequences to video and back. Supports EXR, PNG, JPG frames and MOV, MP4 outputs with frame range control.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">FFmpeg</span><span class="tag">Sequences</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">Video Concatenator</div>
+        <div class="tool-desc">Join multiple videos with drag-and-drop reordering. Toggle audio on/off per clip and choose output format.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">FFmpeg</span><span class="tag">Audio</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">File Collector</div>
+        <div class="tool-desc">Gather files from anywhere, package them for delivery with manifests, checksums, and folder structure validation.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">Manifest</span><span class="tag">Delivery</span>
+        </div>
+      </div>
+
+      <div class="tool-card">
+        <div class="tool-name">File Ingestor</div>
+        <div class="tool-desc">Ingest incoming files into structured pipeline folders. Validates, renames, organizes, and registers assets automatically.</div>
+        <div class="tool-tags">
+          <span class="tag">Python</span><span class="tag">PySide6</span><span class="tag">YAML</span><span class="tag">Automation</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="https://github.com/ademirpasalic/pipeline_tools" target="_blank" class="btn">&#x2192; View on GitHub</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="reveal">
+    <div class="section-label">Resume & Skills</div>
+    <h2 class="section-title">cat <span class="hl">skills.json</span></h2>
+    <div class="skills-container">
+
+      <div class="skill-group">
+        <div class="skill-group-title">Data & Migration</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">ETL</span>
+          <span class="skill-chip primary">Data Migration</span>
+          <span class="skill-chip primary">Mapping & Cleansing</span>
+          <span class="skill-chip primary">Data Validation</span>
+          <span class="skill-chip primary">Python API Integrations</span>
+          <span class="skill-chip">Event-driven Automation</span>
+          <span class="skill-chip">JSON / CSV / YAML</span>
+          <span class="skill-chip">SQL</span>
+          <span class="skill-chip">Learning: Databricks, PySpark, Parquet, Delta Lake</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Engineering</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Python</span>
+          <span class="skill-chip primary">Git / GitHub</span>
+          <span class="skill-chip primary">Docker</span>
+          <span class="skill-chip primary">CI/CD (GitHub Actions)</span>
+          <span class="skill-chip primary">Testing (pytest, dry runs)</span>
+          <span class="skill-chip">PySide / PyQt</span>
+          <span class="skill-chip">Bash</span>
+          <span class="skill-chip">PowerShell</span>
+          <span class="skill-chip">Portainer</span>
+          <span class="skill-chip">Linux</span>
+          <span class="skill-chip">C#</span>
+          <span class="skill-chip">TypeScript</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Studio Tools</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">ShotGrid (Flow)</span>
+          <span class="skill-chip primary">Google Sheets</span>
+          <span class="skill-chip primary">Coda</span>
+          <span class="skill-chip">SyncSketch</span>
+          <span class="skill-chip">Maya</span>
+          <span class="skill-chip">Blender</span>
+          <span class="skill-chip">Adobe CC</span>
+          <span class="skill-chip">TVPaint</span>
+          <span class="skill-chip">Toon Boom Harmony</span>
+          <span class="skill-chip">Unreal Engine</span>
+          <span class="skill-chip">Unity</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">People & Languages</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">Training & Mentoring</span>
+          <span class="skill-chip primary">Technical Documentation</span>
+          <span class="skill-chip primary">Stakeholder Management</span>
+          <span class="skill-chip">Cross-team Coordination</span>
+          <span class="skill-chip">Onboarding</span>
+          <span class="skill-chip">Danish (native)</span>
+          <span class="skill-chip">English (fluent)</span>
+          <span class="skill-chip">Bosnian (conversational)</span>
+          <span class="skill-chip">German (basic)</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="reveal">
+    <div class="section-label">Contact</div>
+    <h2 class="section-title">ssh <span class="hl">connect@me</span></h2>
+    <div class="contact-grid">
+      <div>
+        <div class="contact-text">
+          <p>Want to talk about data, pipelines or animation tech? Send me a message here or find me on LinkedIn.</p>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:ademir.p@outlook.dk" class="contact-link">
+            <div>
+              <div class="contact-link-label">Email</div>
+              <div class="contact-link-value">ademir.p@outlook.dk</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/ademir-pasalic/" class="contact-link">
+            <div>
+              <div class="contact-link-label">LinkedIn</div>
+              <div class="contact-link-value">linkedin.com/in/ademir-pasalic</div>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="contact-form" id="contact-form-wrap">
+        <form action="https://api.web3forms.com/submit" method="POST" id="contact-form">
+          <input type="hidden" name="access_key" value="0728dcea-001c-4611-b64c-528b73f38f22">
+          <input type="hidden" name="subject" id="form-subject">
+          <div class="form-group">
+            <label>NAME</label>
+            <input type="text" name="name" id="contact-name" placeholder="Jane Doe" required>
+          </div>
+          <div class="form-group">
+            <label>EMAIL</label>
+            <input type="email" name="_replyto" id="contact-email" placeholder="jane@studio.com" required>
+          </div>
+          <div class="form-group">
+            <label>MESSAGE</label>
+            <textarea name="message" id="contact-message" placeholder="Hey, I've got a pipeline problem..." required></textarea>
+          </div>
+          <div class="h-captcha" data-captcha="true" data-theme="dark"></div>
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;">→ Send Message</button>
+        </form>
+        <div id="form-success" style="display:none;padding:2rem 0;text-align:center;">
+          <div style="font-family:'JetBrains Mono','Courier New',monospace;color:var(--accent);font-size:1.1rem;margin-bottom:0.5rem;">✓ Message sent!</div>
+          <div style="color:var(--text-secondary);font-size:0.85rem;">Thanks for reaching out. I'll get back to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <span>© 2026 Ademir Pasalic. Powered by coffee.</span>
+  <span>
+    <a href="mailto:ademir.p@outlook.dk">Email</a> · <a href="https://www.linkedin.com/in/ademir-pasalic/">LinkedIn</a>
+  </span>
+</footer>
+
+
+<script src="https://web3forms.com/client/script.js" async defer></script>
+<script>
+  var expanded = false;
+  var INITIAL_COUNT = 6;
+
+  function filterProjects(client) {
+    var cards = document.querySelectorAll('.project-card');
+    var btns = document.querySelectorAll('.filter-btn');
+    for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
+    event.target.classList.add('active');
+    expanded = false;
+    for (var i = 0; i < cards.length; i++) {
+      if (client === 'all' || cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).includes(client)) {
+        delete cards[i].dataset.filteredOut;
+      } else {
+        cards[i].dataset.filteredOut = 'true';
+      }
+    }
+    applyVisibility();
+  }
+
+  function applyVisibility() {
+    var cards = document.querySelectorAll('.project-card');
+    var btn = document.querySelector('.show-more-btn');
+    var visibleIdx = 0;
+    var totalMatching = 0;
+    for (var i = 0; i < cards.length; i++) {
+      var card = cards[i];
+      if (!card.dataset.filteredOut) {
+        totalMatching++;
+        if (expanded || visibleIdx < INITIAL_COUNT) {
+          card.style.display = '';
+          visibleIdx++;
+        } else {
+          card.style.display = 'none';
+        }
+      } else {
+        card.style.display = 'none';
+      }
+    }
+    if (totalMatching <= INITIAL_COUNT) {
+      btn.style.display = 'none';
+    } else {
+      btn.style.display = '';
+      btn.textContent = expanded ? '\u2191 Show less' : '\u2193 Show all projects (' + totalMatching + ')';
+    }
+  }
+
+  function toggleProjects() {
+    expanded = !expanded;
+    applyVisibility();
+    if (!expanded) document.getElementById('projects').scrollIntoView({behavior:'smooth'});
+  }
+
+  // Contact form
+  var contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('contact-name').value;
+      var email = document.getElementById('contact-email').value;
+      var message = document.getElementById('contact-message').value;
+      var subject = 'Connect ' + name;
+      document.getElementById('form-subject').value = subject;
+      var hCaptchaEl = contactForm.querySelector('textarea[name=h-captcha-response]');
+      if (!hCaptchaEl || !hCaptchaEl.value) {
+        return;
+      }
+      var data = JSON.stringify({
+        access_key: '0728dcea-001c-4611-b64c-528b73f38f22',
+        subject: subject,
+        name: name,
+        email: email,
+        message: message,
+        'h-captcha-response': hCaptchaEl.value
+      });
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: data,
+        headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}
+      }).then(function(response) {
+        if (response.ok) {
+          contactForm.style.display = 'none';
+          document.getElementById('form-success').style.display = 'block';
+        } else {
+          mailtoFallback(name, email, subject, message);
+        }
+      }).catch(function() {
+        mailtoFallback(name, email, subject, message);
+      });
+    });
+  }
+
+  function mailtoFallback(name, email, subject, message) {
+    var body = 'From: ' + name + '\nEmail: ' + email + '\n\n' + message;
+    window.location.href = 'mailto:ademir.p@outlook.dk'
+      + '?subject=' + encodeURIComponent(subject)
+      + '&body=' + encodeURIComponent(body);
+  }
+
+  var reveals = document.querySelectorAll('.reveal');
+  var observer = new IntersectionObserver(function(entries) {
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].isIntersecting) entries[i].target.classList.add('visible');
+    }
+  }, {threshold: 0.1});
+  for (var i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
+
+  // Start on Featured
+  (function() {
+    var cards = document.querySelectorAll('.project-card');
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).indexOf('featured') === -1) {
+        cards[i].dataset.filteredOut = 'true';
+      }
+    }
+  })();
+
+  // Load the YouTube player only when a thumbnail is clicked
+  function playVideo(el) {
+    if (el.classList.contains('playing')) return;
+    el.classList.add('playing');
+    el.style.backgroundImage = 'none';
+    el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + el.dataset.id + '?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="YouTube video" allowfullscreen></iframe>';
+  }
+  var thumbs = document.querySelectorAll('.project-video.yt');
+  for (var i = 0; i < thumbs.length; i++) {
+    thumbs[i].addEventListener('click', function() { playVideo(this); });
+    thumbs[i].addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playVideo(this); } });
+  }
+
+  applyVisibility();
+</script>
+</body>
+</html>
