@@ -17,8 +17,8 @@
     --accent-dim: #00e5a020;
     --accent-mid: #00e5a060;
     --text-primary: #e0e0e8;
-    --text-secondary: #7a7a8e;
-    --text-muted: #4a4a5e;
+    --text-secondary: #9a9aae;
+    --text-muted: #5e5e74;
     --border: #1e1e30;
     --border-hover: #2a2a40;
     --terminal-green: #00e5a0;
@@ -38,10 +38,10 @@
   }
 
   body {
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
-    line-height: 1.7;
+    line-height: 1.65;
     overflow-x: hidden;
   }
 
@@ -137,7 +137,7 @@
     z-index: 1;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 6rem 2rem;
+    padding: 4.5rem 2rem;
   }
 
   .section-label {
@@ -161,18 +161,43 @@
     font-size: 1.6rem;
     font-weight: 700;
     color: var(--text-primary);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
   .section-title .hl { color: var(--accent); }
 
   /* ── HERO ── */
   #hero {
-    min-height: 100vh;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: center;
+    padding-top: calc(60px + 6rem);
+    padding-bottom: 4rem;
+  }
+
+  .hero-side {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    padding-top: 60px;
+    align-items: center;
+    gap: 1.5rem;
+    animation: fadeUp 0.6s ease forwards 0.6s;
   }
+  .hero-photo {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-mid);
+    box-shadow: 0 0 60px var(--accent-dim);
+  }
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+    width: 100%;
+  }
+  .hero-stats .stat-card { padding: 1rem; text-align: center; }
+  .hero-stats .stat-number { font-size: 1.5rem; }
 
   .hero-pretitle {
     font-family: 'JetBrains Mono', 'Courier New', monospace;
@@ -206,13 +231,13 @@
   }
 
   .hero-role {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     color: var(--text-secondary);
-    max-width: 560px;
-    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
     animation: fadeUp 0.6s ease forwards 0.6s;
   }
-  .hero-role strong { color: var(--text-primary); font-weight: 500; }
+  .hero-role strong { color: var(--text-primary); font-weight: 600; }
 
   .hero-cta {
     display: flex;
@@ -294,10 +319,7 @@
 
   /* ── ABOUT ── */
   .about-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    align-items: start;
+    max-width: 760px;
   }
 
   .about-header {
@@ -341,8 +363,8 @@
 
   .about-text p {
     color: var(--text-secondary);
-    font-size: 0.88rem;
-    margin-bottom: 1.25rem;
+    font-size: 1.02rem;
+    margin-bottom: 1.1rem;
   }
   .about-text a {
     color: var(--accent);
@@ -434,6 +456,35 @@
     height: 100%;
     border: none;
   }
+  .project-video.yt {
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+  }
+  .project-video.yt::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 0; height: 0;
+    margin: -14px 0 0 -9px;
+    border-style: solid;
+    border-width: 14px 0 14px 22px;
+    border-color: transparent transparent transparent var(--bg-primary);
+    z-index: 1;
+  }
+  .project-video.yt::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 60px; height: 60px;
+    margin: -30px 0 0 -30px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.85;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .project-card:hover .project-video.yt::before { opacity: 1; transform: scale(1.08); }
+  .project-video.playing::before, .project-video.playing::after { display: none; }
 
   .project-type {
     font-size: 0.65rem;
@@ -452,7 +503,7 @@
   }
 
   .project-desc {
-    font-size: 0.82rem;
+    font-size: 0.92rem;
     color: var(--text-secondary);
     margin-bottom: 0.75rem;
     line-height: 1.6;
@@ -589,7 +640,7 @@
 
   .contact-text p {
     color: var(--text-secondary);
-    font-size: 0.88rem;
+    font-size: 1rem;
     margin-bottom: 1.5rem;
   }
 
@@ -651,8 +702,8 @@
     border: 1px solid var(--border);
     border-radius: 4px;
     color: var(--text-primary);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 0.85rem;
+    font-family: inherit;
+    font-size: 0.95rem;
     transition: border-color 0.2s;
     outline: none;
   }
@@ -696,7 +747,7 @@
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 6px;
-    padding: 1.5rem;
+    padding: 1.1rem 1.25rem;
     transition: all 0.3s;
     position: relative;
   }
@@ -721,7 +772,7 @@
   }
 
   .tool-desc {
-    font-size: 0.8rem;
+    font-size: 0.88rem;
     color: var(--text-secondary);
     line-height: 1.6;
     margin-bottom: 0.75rem;
@@ -741,8 +792,17 @@
   }
 
   /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    #hero { grid-template-columns: minmax(0, 1fr); gap: 2.5rem; padding-top: calc(60px + 3rem); }
+    .hero-side { order: -1; flex-direction: row; align-items: center; }
+    .hero-photo { width: 110px; height: 110px; flex-shrink: 0; }
+  }
+
   @media (max-width: 768px) {
     .about-grid, .contact-grid { grid-template-columns: 1fr; }
+    .hero-side { flex-direction: column; align-items: flex-start; }
+    .hero-stats .stat-card { padding: 0.75rem 0.5rem; }
+    .hero-stats .stat-number { font-size: 1.25rem; }
     .nav-status { display: none; }
     .nav-inner { flex-wrap: wrap; height: auto; padding: 0.6rem 0; gap: 0.4rem; }
     .nav-logo { font-size: 0.8rem; }
@@ -793,26 +853,24 @@
 
 <!-- ── HERO ── -->
 <section id="hero">
-  <div class="hero-pretitle">$ whoami</div>
-  <h1 class="hero-name">Ademir Pasalic<span class="cursor"></span></h1>
-  <p class="hero-role">
-    <strong>Senior Software Engineer</strong> with 7+ years bridging technology, creative, and production teams. Building tools for game engines, asset/pipeline automation, and validation workflows for AAA studios and entertainment brands.
-  </p>
-  <div class="hero-cta">
-    <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" class="btn btn-primary">→ View Projects</a>
-    <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn">Get In Touch</a>
-  </div>
-
-  <div class="hero-terminal">
-    <div class="terminal-bar">
-      <div class="terminal-dot r"></div>
-      <div class="terminal-dot y"></div>
-      <div class="terminal-dot g"></div>
+  <div class="hero-main">
+    <div class="hero-pretitle">$ whoami</div>
+    <h1 class="hero-name">Ademir Pasalic<span class="cursor"></span></h1>
+    <p class="hero-role">
+      <strong>Senior Software Engineer</strong> with 7+ years in animation, film and games. I build Python tools, data pipelines and automation that keep production data in one place, and I help teams move onto new systems without stopping production.
+    </p>
+    <div class="hero-cta">
+      <a onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})" class="btn btn-primary">&rarr; View Projects</a>
+      <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="btn">Get In Touch</a>
     </div>
-    <div class="terminal-line"><span class="prompt">❯</span> <span class="cmd">python</span> <span class="flag">-c</span> <span class="str">"import pipeline; pipeline.run()"</span></div>
-    <div class="terminal-line"><span class="comment"># Validating asset hierarchy...</span></div>
-    <div class="terminal-line"><span class="comment"># Publishing to downstream departments...</span></div>
-    <div class="terminal-line"><span class="prompt">✓</span> <span class="str">Pipeline executed successfully. Departments happy. Coffee earned.</span></div>
+  </div>
+  <div class="hero-side">
+    <img src="profile.png" alt="Ademir Pasalic" class="hero-photo">
+    <div class="hero-stats">
+      <div class="stat-card"><div class="stat-number">7+</div><div class="stat-label">Years in production</div></div>
+      <div class="stat-card"><div class="stat-number">58</div><div class="stat-label">Productions</div></div>
+      <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">Major clients</div></div>
+    </div>
   </div>
 </section>
 
@@ -823,41 +881,15 @@
     <h2 class="section-title">def <span class="hl">about_me</span>():</h2>
     <div class="about-grid">
       <div class="about-text">
-        <div class="about-header">
-          <img src="data:image/jpeg;base64,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" alt="Ademir Pasalic" class="profile-photo">
-          <div class="about-header-text">
-            <div class="about-header-name">Ademir Pasalic</div>
-            <div class="about-header-role">Senior Software Engineer @ Sun Creature</div>
-            <div class="about-header-location">Copenhagen, Denmark</div>
-          </div>
-        </div>
         <p>
-          I'm a Senior Software Engineer at <a href="https://suncreature.com">Sun Creature</a> in Copenhagen. My job, in plain terms: I figure out what's slowing people down, then I build the tools to fix it. I've been doing this for 7+ years across animation, film, and games.
+          I'm a Senior Software Engineer at <a href="https://suncreature.com">Sun Creature</a> in Copenhagen, and I've worked in animation, film and games for 7+ years. I build Python tools and services that move production data between ShotGrid, the file server and the people who use them.
         </p>
         <p>
-          I've built integrations across 10+ DCCs and services — Maya, Adobe CC, ToonBoom, TVPaint, Fusion, Flow (ShotGrid), and plenty more. If artists are fighting their tools instead of making great work, that's where I step in.
+          I led the studio's move from scattered spreadsheets to one shared source of truth in ShotGrid, without stopping production. Most of my users are artists and producers. I want artists to focus on the creative work and producers on their teams, schedules and budgets. That only works if the data is easy to find, read and use. I also script for the tools artists use every day, like Maya, Blender, Adobe CC, TVPaint and Toon Boom Harmony.
         </p>
         <p>
-          I care a lot about doing right by the people I work with. I document things properly, I communicate early, and I make sure nobody gets stuck waiting on me. I've been lucky enough to ship work for Netflix, Blizzard, Disney, Riot Games, Supercell, EA, Lego, and others.
+          I care a lot about doing right by the people I work with. I document things properly, I communicate early, and I make sure nobody gets stuck waiting on me. I've been lucky enough to ship work for Netflix, Blizzard, Disney, Riot Games, Supercell, EA, The LEGO Group and others.
         </p>
-      </div>
-      <div class="about-stats">
-        <div class="stat-card">
-          <div class="stat-number">7+</div>
-          <div class="stat-label">Years in Production</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">50+</div>
-          <div class="stat-label">Shipped Projects</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">15+</div>
-          <div class="stat-label">Major Clients</div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-number">10+</div>
-          <div class="stat-label">DCC Integrations</div>
-        </div>
       </div>
     </div>
   </div>
@@ -870,31 +902,31 @@
     <h2 class="section-title">ls <span class="hl">~/projects</span></h2>
 
     <div class="project-filters">
-      <button class="filter-btn active" onclick="filterProjects('all')">All</button>
-      <button class="filter-btn" onclick="filterProjects('featured')">Featured</button>
-      <button class="filter-btn" onclick="filterProjects('supercell')">Supercell</button>
-      <button class="filter-btn" onclick="filterProjects('wizards-of-the-coast')">Wizards of the Coast</button>
-      <button class="filter-btn" onclick="filterProjects('ea')">EA / Respawn</button>
-      <button class="filter-btn" onclick="filterProjects('epic-games')">Epic Games</button>
-      <button class="filter-btn" onclick="filterProjects('blizzard')">Blizzard</button>
-      <button class="filter-btn" onclick="filterProjects('riot')">Riot Games</button>
-      <button class="filter-btn" onclick="filterProjects('2k')">2K Games</button>
-      <button class="filter-btn" onclick="filterProjects('garena')">Garena</button>
-      <button class="filter-btn" onclick="filterProjects('hoyoverse')">HoYoverse</button>
-      <button class="filter-btn" onclick="filterProjects('mojang')">Mojang</button>
-      <button class="filter-btn" onclick="filterProjects('lego')">Lego</button>
+      <button class="filter-btn" onclick="filterProjects('all')">All</button>
+      <button class="filter-btn active" onclick="filterProjects('featured')">Featured</button>
+      <button class="filter-btn" onclick="filterProjects('lego')">LEGO</button>
       <button class="filter-btn" onclick="filterProjects('netflix')">Netflix</button>
       <button class="filter-btn" onclick="filterProjects('disney')">Disney</button>
+      <button class="filter-btn" onclick="filterProjects('epic-games')">Epic Games</button>
+      <button class="filter-btn" onclick="filterProjects('mojang')">Mojang</button>
       <button class="filter-btn" onclick="filterProjects('cartoonnetwork')">Cartoon Network</button>
-      <button class="filter-btn" onclick="filterProjects('oaklandroots')">Oakland Roots</button>
       <button class="filter-btn" onclick="filterProjects('moonbug')">Moonbug</button>
+      <button class="filter-btn" onclick="filterProjects('supercell')">Supercell</button>
+      <button class="filter-btn" onclick="filterProjects('blizzard')">Blizzard</button>
+      <button class="filter-btn" onclick="filterProjects('riot')">Riot Games</button>
+      <button class="filter-btn" onclick="filterProjects('ea')">EA / Respawn</button>
+      <button class="filter-btn" onclick="filterProjects('2k')">2K Games</button>
+      <button class="filter-btn" onclick="filterProjects('hoyoverse')">HoYoverse</button>
+      <button class="filter-btn" onclick="filterProjects('wizards-of-the-coast')">Wizards of the Coast</button>
+      <button class="filter-btn" onclick="filterProjects('garena')">Garena</button>
+      <button class="filter-btn" onclick="filterProjects('oaklandroots')">Oakland Roots</button>
       <button class="filter-btn" onclick="filterProjects('41shadows')">41Shadows</button>
     </div>
 
     <div class="projects-grid">
 
       <div class="project-card" data-client="wizards-of-the-coast">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/9CtTscZmdw0" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="9CtTscZmdw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9CtTscZmdw0/hqdefault.jpg)"></div>
         <div class="project-type">Wizards of the Coast · July 2026</div>
         <div class="project-title">Dungeons & Dragons: Dark Sun</div>
         <div class="project-desc">Beneath a fractured sun, bear witness to the bloodshed and carnage that defines a dying world.</div>
@@ -902,7 +934,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/BWJYT9t1Ieg" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="BWJYT9t1Ieg" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BWJYT9t1Ieg/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2026</div>
         <div class="project-title">GET MONEY MONEY MONEY</div>
         <div class="project-desc">NanoNoodles are a certified infinite coin trick!</div>
@@ -910,7 +942,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/Io1ZL0rc2Ac" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="Io1ZL0rc2Ac" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Io1ZL0rc2Ac/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · April 2026</div>
         <div class="project-title">Brawl Stars x ElectricCallboy - HYPERCHARGED</div>
         <div class="project-desc">Watch and listen to "HYPERCHARGED"! The newest song by Electric Callboy made to announce Damian!</div>
@@ -918,7 +950,7 @@
       </div>
 
       <div class="project-card" data-client="epic-games">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/5QBlmbkeF3I" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="5QBlmbkeF3I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/5QBlmbkeF3I/hqdefault.jpg)"></div>
         <div class="project-type">Epic Games · April 2026</div>
         <div class="project-title">Laufey's Distinct Sound</div>
         <div class="project-desc">It was only A Matter of Time, right Laufey?</div>
@@ -926,7 +958,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/WuwxkkSSeug" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="WuwxkkSSeug" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WuwxkkSSeug/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · February 2026</div>
         <div class="project-title">Sirius - No more Brawl Stars!</div>
         <div class="project-desc">Sirius, The First Star of Starr Park is here.</div>
@@ -934,7 +966,7 @@
       </div>
 
       <div class="project-card" data-client="blizzard,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/QKVSzP_sEU8" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="QKVSzP_sEU8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/QKVSzP_sEU8/hqdefault.jpg)"></div>
         <div class="project-type">Blizzard · February 2026</div>
         <div class="project-title">Arator: Son of Two Worlds</div>
         <div class="project-desc">Arator&#39;s story of duality and legacy, brought to life through Sun Creature&#39;s 2D animation.</div>
@@ -942,7 +974,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/d-NtBVjvP6Y" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="d-NtBVjvP6Y" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/d-NtBVjvP6Y/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · February 2026</div>
         <div class="project-title">Sirius - The Untold Lore</div>
         <div class="project-desc">Villains aren&#39;t born; they&#39;re made.</div>
@@ -950,7 +982,7 @@
       </div>
 
       <div class="project-card" data-client="oaklandroots">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/yX736VzWT-s" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="yX736VzWT-s" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/yX736VzWT-s/hqdefault.jpg)"></div>
         <div class="project-type">Oakland Roots · February 2026</div>
         <div class="project-title">The Oakness Awakens</div>
         <div class="project-desc">2026 Oakland Roots SC Jerseys</div>
@@ -958,7 +990,7 @@
       </div>
 
       <div class="project-card" data-client="blizzard">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/CoJgQA4Uhks" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="CoJgQA4Uhks" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CoJgQA4Uhks/hqdefault.jpg)"></div>
         <div class="project-type">Blizzard · February 2026</div>
         <div class="project-title">Liadrin: All That is Sacred</div>
         <div class="project-desc">Liadrin&#39;s story of loss, despair, and retribution, brought to life through Sun Creature&#39;s 2D animation.</div>
@@ -966,7 +998,7 @@
       </div>
 
       <div class="project-card" data-client="netflix">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/4A9iFjaKeMk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="4A9iFjaKeMk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4A9iFjaKeMk/hqdefault.jpg)"></div>
         <div class="project-type">Netflix · Series 2025</div>
         <div class="project-title">Splinter Cell: Deathwatch</div>
         <div class="project-desc">Sam Fisher goes animated — full first season of Netflix&#39;s Splinter Cell adaptation.</div>
@@ -974,7 +1006,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/tR872KZ_zAk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="tR872KZ_zAk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/tR872KZ_zAk/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · November 2025</div>
         <div class="project-title">Brawl Stars x Stranger Things</div>
         <div class="project-desc">The Upside Down swallows the Brawliverse. Eleven didn&#39;t come alone, and the Brawlers aren&#39;t ready.</div>
@@ -982,7 +1014,7 @@
       </div>
 
       <div class="project-card" data-client="riot,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/4L6UfKr8qSE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="4L6UfKr8qSE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/4L6UfKr8qSE/hqdefault.jpg)"></div>
         <div class="project-type">Riot Games · October 2025</div>
         <div class="project-title">Miss This Life ft. NINGNING of aespa & Fairlane</div>
         <div class="project-desc">You are Wild Rift. And Wild Rift is you. Happy 5th anniversary  to us.</div>
@@ -990,7 +1022,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/GEMaj3iOQw0" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="GEMaj3iOQw0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/GEMaj3iOQw0/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · October 2025</div>
         <div class="project-title">Brawl Stars is turning upside down!</div>
         <div class="project-desc">Something wicked is coming to the Brawliverse. A mysterious teaser that keeps you guessing.</div>
@@ -998,7 +1030,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/L30jSz9BEEw" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="L30jSz9BEEw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/L30jSz9BEEw/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · September 2025</div>
         <div class="project-title">Brawl-O-Ween is coming!</div>
         <div class="project-desc">Spooky season hits the Brawliverse — ghosts, ghouls, and Brawlers dressed to haunt.</div>
@@ -1006,7 +1038,7 @@
       </div>
 
       <div class="project-card" data-client="garena">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/CM5fY7eh_MM" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="CM5fY7eh_MM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/CM5fY7eh_MM/hqdefault.jpg)"></div>
         <div class="project-type">Garena · September 2025</div>
         <div class="project-title">Trouble Night</div>
         <div class="project-desc">Darkness rises, spells awaken, and the night comes alive… Are you ready to face the unknown?</div>
@@ -1014,7 +1046,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/JSwk05Yhess" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="JSwk05Yhess" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/JSwk05Yhess/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · September 2025</div>
         <div class="project-title">Subway Surfers in Brawl Stars!?</div>
         <div class="project-desc">Jake just ran into the wrong neighborhood. Subway Surfers crashes into the Brawliverse, and nobody&#39;s slowing down.</div>
@@ -1022,7 +1054,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/6E7yKwSU2gs" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="6E7yKwSU2gs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/6E7yKwSU2gs/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2025</div>
         <div class="project-title">Alli is watching you!</div>
         <div class="project-desc">Animated chaos from the Arena — fast, colorful, and fun to build.</div>
@@ -1030,15 +1062,15 @@
       </div>
 
       <div class="project-card" data-client="lego,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/EbIxh8Nq9zU" allowfullscreen loading="lazy"></iframe></div>
-        <div class="project-type">Lego · June 2025</div>
+        <div class="project-video yt" data-id="EbIxh8Nq9zU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/EbIxh8Nq9zU/hqdefault.jpg)"></div>
+        <div class="project-type">LEGO · June 2025</div>
         <div class="project-title">NINJAGO Legends: Monstrosity</div>
-        <div class="project-desc">Ninja, monsters, and Lego — animated episodes for the NINJAGO Legends series.</div>
+        <div class="project-desc">Ninja, monsters, and LEGO — animated episodes for the NINJAGO Legends series.</div>
         <div class="project-tags"><span class="tag">Lead Pipeline TD</span><span class="tag">Ninjago</span></div>
       </div>
 
       <div class="project-card" data-client="blizzard,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/K9n3JVi1Vxk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="K9n3JVi1Vxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/K9n3JVi1Vxk/hqdefault.jpg)"></div>
         <div class="project-type">Blizzard · April 2025</div>
         <div class="project-title">Diablo IV x Berserk</div>
         <div class="project-desc">When Diablo meets Berserk, the art gets intense — and so does the pipeline.</div>
@@ -1046,7 +1078,7 @@
       </div>
 
       <div class="project-card" data-client="ea,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/zeVwKk7_XHs" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="zeVwKk7_XHs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/zeVwKk7_XHs/hqdefault.jpg)"></div>
         <div class="project-type">EA / Respawn · April 2025</div>
         <div class="project-title">Prodigy</div>
         <div class="project-desc">Season anthem trailer introducing the newest Legend to the Apex Games.</div>
@@ -1054,7 +1086,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/WZtEDwLPyRM" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="WZtEDwLPyRM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/WZtEDwLPyRM/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · April 2025</div>
         <div class="project-title">New Champion: Boss Bandit!</div>
         <div class="project-desc">The Boss Bandit enters the Arena — animated reveal for the newest champion.</div>
@@ -1062,7 +1094,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/otQ6kAZJXcY" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="otQ6kAZJXcY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/otQ6kAZJXcY/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · February 2025</div>
         <div class="project-title">A day in Hay Day</div>
         <div class="project-desc">A cozy day on the farm — animated short for Hay Day that made me want to garden.</div>
@@ -1070,7 +1102,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/xRz9DFJQ_j4" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="xRz9DFJQ_j4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/xRz9DFJQ_j4/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · February 2025</div>
         <div class="project-title">GOOD RANDOMS - My Only Trophy</div>
         <div class="project-desc">When Brawlers drop a music video, you know it&#39;s going to be ridiculous. It was.</div>
@@ -1078,7 +1110,7 @@
       </div>
 
       <div class="project-card" data-client="ea">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/3WZ5DNIzc_o" allowfullscreen loading="lazy"></iframe></div>        
+        <div class="project-video yt" data-id="3WZ5DNIzc_o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/3WZ5DNIzc_o/hqdefault.jpg)"></div>        
         <div class="project-type">EA / Respawn · January 2025</div>
         <div class="project-title">Takeover</div>
         <div class="project-desc">High-energy animated trailer for the Takeover season launch.</div>
@@ -1086,7 +1118,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/DPPcV0-0QWs" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="DPPcV0-0QWs" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/DPPcV0-0QWs/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · January 2025</div>
         <div class="project-title">New Card: Rune Giant!</div>
         <div class="project-desc">The Rune Giant stomps in — card reveal trailer with a lot of ground to shake.</div>
@@ -1094,7 +1126,7 @@
       </div>
 
       <div class="project-card" data-client="cartoonnetwork,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/81rXySAfTxk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="81rXySAfTxk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/81rXySAfTxk/hqdefault.jpg)"></div>
         <div class="project-type">Cartoon Network · Series · 2022–2024</div>
         <div class="project-title">The Heroic Quest of the Valiant Prince Ivandoe</div>
         <div class="project-desc">A charming, hand-drawn adventure series — Prince Ivandoe&#39;s heroic (and hilarious) quests.</div>
@@ -1102,7 +1134,7 @@
       </div>
 
       <div class="project-card" data-client="disney">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/fQGf_nJ1E9w" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="fQGf_nJ1E9w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/fQGf_nJ1E9w/hqdefault.jpg)"></div>
         <div class="project-type">Disney · Feature · 2024</div>
         <div class="project-title">Elton John: Never Too Late</div>
         <div class="project-desc">Animated sequences for Disney&#39;s documentary about Elton John — music, memories, and motion.</div>
@@ -1110,7 +1142,7 @@
       </div>
 
       <div class="project-card" data-client="ea">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/9-kNd1_xG9Q" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="9-kNd1_xG9Q" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9-kNd1_xG9Q/hqdefault.jpg)"></div>
         <div class="project-type">EA / Respawn · November 2024</div>
         <div class="project-title">From the Rift</div>
         <div class="project-desc">A new dimension tears open — animated launch trailer for Season 23.</div>
@@ -1118,7 +1150,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/BqPNB9Vxl_w" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="BqPNB9Vxl_w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/BqPNB9Vxl_w/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · October 2024</div>
         <div class="project-title">JUJU HAS IT ALL!</div>
         <div class="project-desc">Juju takes center stage — animated short bursting with personality.</div>
@@ -1126,7 +1158,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/Z38nR1BY1dA" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="Z38nR1BY1dA" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Z38nR1BY1dA/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · September 2024</div>
         <div class="project-title">SpongeBob, Brawl Stars, and... JOHN CENA?!</div>
         <div class="project-desc">SpongeBob, Brawl Stars, John Cena. Yes, really. One of the wildest crossovers I&#39;ve worked on.</div>
@@ -1134,7 +1166,7 @@
       </div>
 
       <div class="project-card" data-client="blizzard">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/IgY1YrAHYBI" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="IgY1YrAHYBI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IgY1YrAHYBI/hqdefault.jpg)"></div>
         <div class="project-type">Blizzard · August 2024</div>
         <div class="project-title">Alleria: Light and Shadow</div>
         <div class="project-desc">Alleria&#39;s story of light and shadow, brought to life through Sun Creature&#39;s 2D animation.</div>
@@ -1142,7 +1174,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/RJw3Y-3EBFo" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="RJw3Y-3EBFo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/RJw3Y-3EBFo/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · August 2024</div>
         <div class="project-title">PAINT BRAWL STARTS NOW!</div>
         <div class="project-desc">Brawlers pick up paintbrushes — colorful animated short for a seasonal event.</div>
@@ -1150,7 +1182,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/qY2AgKzldW8" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="qY2AgKzldW8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/qY2AgKzldW8/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · July 2024</div>
         <div class="project-title">Coming this Tuesday!</div>
         <div class="project-desc">Something new is coming to the Arena — mysterious card teaser.</div>
@@ -1158,7 +1190,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/FTYW8NHAkmE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="FTYW8NHAkmE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/FTYW8NHAkmE/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2024</div>
         <div class="project-title">BIG BOI GREEN</div>
         <div class="project-desc">Big, green, and evolved — animated short for the latest card evolution.</div>
@@ -1166,7 +1198,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/OoUIFQUvYKw" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="OoUIFQUvYKw" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/OoUIFQUvYKw/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2024</div>
         <div class="project-title">The Goblin Queen's Update has arrived!</div>
         <div class="project-desc">The Queen&#39;s arrived and she&#39;s brought chaos — update reveal short.</div>
@@ -1174,7 +1206,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/_VnqcBnWM0k" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="_VnqcBnWM0k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_VnqcBnWM0k/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2024</div>
         <div class="project-title">Goblin Queen's Takeover</div>
         <div class="project-desc">The Goblin Queen takes over — animated trailer for Clash Royale&#39;s big update.</div>
@@ -1182,7 +1214,7 @@
       </div>
 
       <div class="project-card" data-client="ea">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/hDTorbKavfI" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="hDTorbKavfI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/hDTorbKavfI/hqdefault.jpg)"></div>
         <div class="project-type">EA / Respawn · May 2024</div>
         <div class="project-title">Alter | Based on a True Story</div>
         <div class="project-desc">Alter&#39;s origin story — a character piece about identity and deception.</div>
@@ -1190,7 +1222,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/gghKJQOhE2M" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="gghKJQOhE2M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gghKJQOhE2M/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · March 2024</div>
         <div class="project-title">DAGGER DUCHESS</div>
         <div class="project-desc">Dagger Duchess got her own music video. Tower Troops have never looked this cool.</div>
@@ -1198,7 +1230,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/Gx_eiHFLhAE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="Gx_eiHFLhAE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/Gx_eiHFLhAE/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · March 2024</div>
         <div class="project-title">Goblins organised our bday party...</div>
         <div class="project-desc">Goblins + birthday party = exactly the kind of mess you&#39;d expect.</div>
@@ -1206,7 +1238,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/vsCeWFs3Qh0" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="vsCeWFs3Qh0" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/vsCeWFs3Qh0/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · January 2024</div>
         <div class="project-title">Animation vs Gameplay — Valk Edition</div>
         <div class="project-desc">Animation vs. actual gameplay, side by side — Valkyrie edition.</div>
@@ -1214,7 +1246,7 @@
       </div>
 
       <div class="project-card" data-client="netflix,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/2rrRToCVm4I" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="2rrRToCVm4I" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/2rrRToCVm4I/hqdefault.jpg)"></div>
         <div class="project-type">Netflix · Series · 2023</div>
         <div class="project-title">Blue Eye Samurai</div>
         <div class="project-desc">Three episodes (S1E6, S1E7, S1E8) of Netflix&#39;s Emmy-winning samurai epic — stunning 2D animation meets revenge story.</div>
@@ -1222,7 +1254,7 @@
       </div>
       
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/q1r8aoFrla8" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="q1r8aoFrla8" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/q1r8aoFrla8/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · December 2023</div>
         <div class="project-title">Are You Naughty or Nice?!</div>
         <div class="project-desc">Naughty or nice? The Clash Royale crew finds out the hard way.</div>
@@ -1230,7 +1262,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/sCxWGlIwZ2k" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="sCxWGlIwZ2k" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/sCxWGlIwZ2k/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · December 2023</div>
         <div class="project-title">New TOWER TROOP Reveal!</div>
         <div class="project-desc">A whole new unit type enters the Arena — animated reveal for Tower Troops.</div>
@@ -1238,7 +1270,7 @@
       </div>
 
       <div class="project-card" data-client="ea">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/9fU4PlGIaWU" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="9fU4PlGIaWU" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/9fU4PlGIaWU/hqdefault.jpg)"></div>
         <div class="project-type">EA / Respawn · October 2023</div>
         <div class="project-title">Stories from the Outlands</div>
         <div class="project-desc">A deeply personal story about family, duty, and sacrifice in the Outlands.</div>
@@ -1246,7 +1278,7 @@
       </div>
 
       <div class="project-card" data-client="mojang">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/ESb3ad-1lJE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="ESb3ad-1lJE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/ESb3ad-1lJE/hqdefault.jpg)"></div>
         <div class="project-type">Mojang Studios · September 2023</div>
         <div class="project-title">LoFi: Laid back lutes</div>
         <div class="project-desc">LoFi beats meet Minecraft — a chill animated music video for the lute-loving crowd.</div>
@@ -1254,7 +1286,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/T16T-odokVk" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="T16T-odokVk" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/T16T-odokVk/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · August 2023</div>
         <div class="project-title">Charging up to the Max!</div>
         <div class="project-desc">High-energy Brawl Stars animation — punchy and full of personality.</div>
@@ -1262,7 +1294,7 @@
       </div>
 
       <div class="project-card" data-client="supercell">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/u8p7QNz5M7M" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="u8p7QNz5M7M" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/u8p7QNz5M7M/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · June 2023</div>
         <div class="project-title">The Legends of Olympus</div>
         <div class="project-desc">Greek gods meet Brawl Stars — mythological mayhem in the Arena.</div>
@@ -1270,7 +1302,7 @@
       </div>
 
       <div class="project-card" data-client="hoyoverse">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/gJe8sAMb3bE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="gJe8sAMb3bE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/gJe8sAMb3bE/hqdefault.jpg)"></div>
         <div class="project-type">HoYoverse · June 2023</div>
         <div class="project-title">Scenery and Sentiment: Liyue</div>
         <div class="project-desc">A love letter to Liyue — scenic animated short celebrating Genshin Impact&#39;s Chinese-inspired region.</div>
@@ -1278,7 +1310,7 @@
       </div>
 
       <div class="project-card" data-client="supercell,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/AQ99iVo_QC4" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="AQ99iVo_QC4" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/AQ99iVo_QC4/hqdefault.jpg)"></div>
         <div class="project-type">Supercell · December 2022</div>
         <div class="project-title">Santa Hog Rider's Workshop</div>
         <div class="project-desc">Santa Hog Rider builds toys, wrecks towers, and delivers holiday cheer. Classic Clash.</div>
@@ -1286,7 +1318,7 @@
       </div>
 
       <div class="project-card" data-client="hoyoverse">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/_XwlRU2lrPM" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="_XwlRU2lrPM" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/_XwlRU2lrPM/hqdefault.jpg)"></div>
         <div class="project-type">HoYoverse · October 2022</div>
         <div class="project-title">Scenery and Sentiment: Mondstadt</div>
         <div class="project-desc">Windblown fields and warm taverns — a scenic tribute to Genshin&#39;s starting region.</div>
@@ -1294,7 +1326,7 @@
       </div>
 
       <div class="project-card" data-client="2k,featured">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/SdROhbPZyeE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="SdROhbPZyeE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/SdROhbPZyeE/hqdefault.jpg)"></div>
         <div class="project-type">2K Games · October 2022</div>
         <div class="project-title">Marvel's Midnight Suns: The Salem Sisters</div>
         <div class="project-desc">The Salem Sisters&#39; dark origin story — animated prequel shorts for Marvel&#39;s tactical RPG.</div>
@@ -1302,7 +1334,7 @@
       </div>
 
       <div class="project-card" data-client="2k">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/k9IPmCKu7qI" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="k9IPmCKu7qI" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/k9IPmCKu7qI/hqdefault.jpg)"></div>
         <div class="project-type">2K Games · September 2022</div>
         <div class="project-title">Marvel's Midnight Suns: Intro Teaser</div>
         <div class="project-desc">Setting the stage for Midnight Suns — animated teaser introducing the prequel shorts.</div>
@@ -1310,7 +1342,7 @@
       </div>
 
       <div class="project-card" data-client="riot">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/nEFcbKF4WfY" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="nEFcbKF4WfY" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/nEFcbKF4WfY/hqdefault.jpg)"></div>
         <div class="project-type">Riot Games · June 2022</div>
         <div class="project-title">Return to Valoran City - Star Guardian</div>
         <div class="project-desc">The Star Guardians return to Valoran City — magical girl energy meets Riot&#39;s animation quality.</div>
@@ -1318,7 +1350,7 @@
       </div>
 
       <div class="project-card" data-client="riot">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/kAr0IfSMe1w" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="kAr0IfSMe1w" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/kAr0IfSMe1w/hqdefault.jpg)"></div>
         <div class="project-type">Riot Games · February 2022</div>
         <div class="project-title">A Curious Journey</div>
         <div class="project-desc">New cards, new regions, new adventures in Runeterra.</div>
@@ -1326,7 +1358,7 @@
       </div>
 
       <div class="project-card" data-client="riot">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/IoSTm4jwGEo" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="IoSTm4jwGEo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/IoSTm4jwGEo/hqdefault.jpg)"></div>
         <div class="project-type">Riot Games · November 2021</div>
         <div class="project-title">Magic Misadventures</div>
         <div class="project-desc">Spells gone wrong — animated trailer for the Magic Misadventures expansion.</div>
@@ -1334,7 +1366,7 @@
       </div>
 
       <div class="project-card" data-client="riot">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/h3YIKmjFpoo" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="h3YIKmjFpoo" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/h3YIKmjFpoo/hqdefault.jpg)"></div>
         <div class="project-type">Riot Games · August 2021</div>
         <div class="project-title">Beyond the Bandlewood</div>
         <div class="project-desc">Bandlewood&#39;s debut — a cinematic introduction to Runeterra&#39;s quirkiest region.</div>
@@ -1342,7 +1374,7 @@
       </div>
 
       <div class="project-card" data-client="moonbug">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/54uywpVJF3o" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="54uywpVJF3o" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/54uywpVJF3o/hqdefault.jpg)"></div>
         <div class="project-type">Moonbug · Series · 2020</div>
         <div class="project-title">Mia's Magic Playground</div>
         <div class="project-desc">First 12 episodes of children&#39;s magic — 3D animated series about a girl and her enchanted playground.</div>
@@ -1350,7 +1382,7 @@
       </div>
 
       <div class="project-card" data-client="41shadows">
-        <div class="project-video"><iframe src="https://www.youtube.com/embed/luuf2JPK2rE" allowfullscreen loading="lazy"></iframe></div>
+        <div class="project-video yt" data-id="luuf2JPK2rE" role="button" tabindex="0" aria-label="Play video" style="background-image:url(https://i.ytimg.com/vi/luuf2JPK2rE/hqdefault.jpg)"></div>
         <div class="project-type">41Shadows · Feature · 2019</div>
         <div class="project-title">Kaptajn Bimse</div>
         <div class="project-desc">1,200+ VFX shots through Unity&#39;s HD Render Pipeline — my first big production gig.</div>
@@ -1369,12 +1401,11 @@
   <div class="reveal">
     <div class="section-label">Pipeline Tools</div>
     <h2 class="section-title">import <span class="hl">pipeline_tools</span></h2>
-    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:2.5rem;max-width:640px;">A collection of standalone Python tools I built for animation and VFX production. Each one solves a real problem I&#39;ve encountered on the job. All open source, all built with PySide6.</p>
+    <p style="color:var(--text-secondary);font-size:0.88rem;margin-bottom:2.5rem;max-width:640px;">A collection of standalone Python tools I built for animation and VFX production. Each one solves a real problem I&#39;ve encountered on the job. All open source, most built with PySide6.</p>
 
     <div class="tools-grid">
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F4E1;</div>
         <div class="tool-name">Webhook Monitor</div>
         <div class="tool-desc">Real-time web dashboard for pipeline events — publish callbacks, render farm status, delivery confirmations, and validation results. Live filtering and auto-classification.</div>
         <div class="tool-tags">
@@ -1383,7 +1414,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x2714;</div>
         <div class="tool-name">Asset Validator</div>
         <div class="tool-desc">Checks naming conventions, folder structure, and file metadata against configurable rulesets. Catches problems before they reach downstream.</div>
         <div class="tool-tags">
@@ -1392,7 +1422,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F4E6;</div>
         <div class="tool-name">Scene Publisher</div>
         <div class="tool-desc">Lightweight publish system with automatic versioning, thumbnail generation, status tracking, and configurable targets.</div>
         <div class="tool-tags">
@@ -1401,7 +1430,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x270F;</div>
         <div class="tool-name">Batch Renamer</div>
         <div class="tool-desc">Rename and organize production files with regex, presets, find-and-replace, and numbering — with live preview before applying.</div>
         <div class="tool-tags">
@@ -1410,7 +1438,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F4CA;</div>
         <div class="tool-name">Production Tracker</div>
         <div class="tool-desc">Shot and asset status dashboard with filtering, artist assignment, progress stats, and status color coding.</div>
         <div class="tool-tags">
@@ -1419,7 +1446,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F680;</div>
         <div class="tool-name">DCC Launcher</div>
         <div class="tool-desc">Launch DCCs with the right environment per project. Manages software versions, env vars, and configs in one place.</div>
         <div class="tool-tags">
@@ -1428,7 +1454,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x2699;</div>
         <div class="tool-name">Pipeline Config Manager</div>
         <div class="tool-desc">Visual editor for YAML/JSON pipeline configs. Supports hierarchical settings, environment overrides, and schema validation.</div>
         <div class="tool-tags">
@@ -1437,7 +1462,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F504;</div>
         <div class="tool-name">Media Converter</div>
         <div class="tool-desc">Batch convert between image and video formats. Handles EXR, PNG, JPG, TIFF, MOV, MP4 — the formats you actually use in production.</div>
         <div class="tool-tags">
@@ -1446,7 +1470,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F3AC;</div>
         <div class="tool-name">Frames &#x2194; Video</div>
         <div class="tool-desc">Convert image sequences to video and back. Supports EXR, PNG, JPG frames and MOV, MP4 outputs with frame range control.</div>
         <div class="tool-tags">
@@ -1455,7 +1478,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F517;</div>
         <div class="tool-name">Video Concatenator</div>
         <div class="tool-desc">Join multiple videos with drag-and-drop reordering. Toggle audio on/off per clip and choose output format.</div>
         <div class="tool-tags">
@@ -1464,7 +1486,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F4E4;</div>
         <div class="tool-name">File Collector</div>
         <div class="tool-desc">Gather files from anywhere, package them for delivery with manifests, checksums, and folder structure validation.</div>
         <div class="tool-tags">
@@ -1473,7 +1494,6 @@
       </div>
 
       <div class="tool-card">
-        <div class="tool-icon">&#x1F4E5;</div>
         <div class="tool-name">File Ingestor</div>
         <div class="tool-desc">Ingest incoming files into structured pipeline folders. Validates, renames, organizes, and registers assets automatically.</div>
         <div class="tool-tags">
@@ -1495,97 +1515,70 @@
   <div class="reveal">
     <div class="section-label">Resume & Skills</div>
     <h2 class="section-title">cat <span class="hl">skills.json</span></h2>
-    <div style="display:flex;align-items:center;gap:1.5rem;margin-bottom:1.5rem;font-family:'JetBrains Mono','Courier New',monospace;font-size:0.7rem;">
-      <div style="display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--accent-dim);border:1px solid var(--accent);"></span><span style="color:var(--text-secondary);">Core strength</span></div>
-      <div style="display:flex;align-items:center;gap:0.4rem;"><span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:var(--bg-secondary);border:1px solid var(--border);"></span><span style="color:var(--text-muted);">Experienced</span></div>
-    </div>
     <div class="skills-container">
 
       <div class="skill-group">
-        <div class="skill-group-title">Languages & Scripting</div>
+        <div class="skill-group-title">Data & Migration</div>
+        <div class="skill-chips">
+          <span class="skill-chip primary">ETL</span>
+          <span class="skill-chip primary">Data Migration</span>
+          <span class="skill-chip primary">Mapping & Cleansing</span>
+          <span class="skill-chip primary">Data Validation</span>
+          <span class="skill-chip primary">Python API Integrations</span>
+          <span class="skill-chip">Event-driven Automation</span>
+          <span class="skill-chip">JSON / CSV / YAML</span>
+          <span class="skill-chip">SQL</span>
+          <span class="skill-chip">Learning: Databricks, PySpark, Parquet, Delta Lake</span>
+        </div>
+      </div>
+
+      <div class="skill-group">
+        <div class="skill-group-title">Engineering</div>
         <div class="skill-chips">
           <span class="skill-chip primary">Python</span>
-          <span class="skill-chip primary">C#</span>
-          <span class="skill-chip primary">PyQt / PySide</span>
-          <span class="skill-chip primary">YAML</span>
-          <span class="skill-chip primary">JSON</span>
-          <span class="skill-chip">XML</span>
-          <span class="skill-chip">PowerShell</span>
-          <span class="skill-chip">Bash</span>
-          <span class="skill-chip">MEL</span>
-          <span class="skill-chip">JavaScript</span>
-          <span class="skill-chip">TypeScript</span>
-          <span class="skill-chip">HTML / CSS</span>
-          <span class="skill-chip">SQL</span>
-        </div>
-      </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Engines & DCCs</div>
-        <div class="skill-chips">
-          <span class="skill-chip primary">Unreal Engine</span>
-          <span class="skill-chip primary">Unity</span>
-          <span class="skill-chip primary">Maya</span>
-          <span class="skill-chip primary">TVPaint</span>
-          <span class="skill-chip primary">Adobe CC</span>
-          <span class="skill-chip">Blender</span>
-          <span class="skill-chip">ToonBoom</span>
-          <span class="skill-chip">DaVinci Resolve</span>
-          <span class="skill-chip">Blackmagic Fusion</span>
-          <span class="skill-chip">Rokoko Studio</span>
-        </div>
-      </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Pipeline & DevOps</div>
-        <div class="skill-chips">
-          <span class="skill-chip primary">Git / Git LFS</span>
+          <span class="skill-chip primary">Git / GitHub</span>
           <span class="skill-chip primary">Docker</span>
-          <span class="skill-chip primary">CI/CD</span>
-          <span class="skill-chip primary">Data Automation</span>
-          <span class="skill-chip">Linux (Ubuntu)</span>
-          <span class="skill-chip">Perforce</span>
-          <span class="skill-chip">Build Validation</span>
-          <span class="skill-chip">REST APIs</span>
-          <span class="skill-chip">System Integration</span>
-          <span class="skill-chip">Virtual Machines</span>
+          <span class="skill-chip primary">CI/CD (GitHub Actions)</span>
+          <span class="skill-chip primary">Testing (pytest, dry runs)</span>
+          <span class="skill-chip">PySide / PyQt</span>
+          <span class="skill-chip">Bash</span>
+          <span class="skill-chip">PowerShell</span>
+          <span class="skill-chip">Portainer</span>
+          <span class="skill-chip">Linux</span>
+          <span class="skill-chip">C#</span>
+          <span class="skill-chip">TypeScript</span>
         </div>
       </div>
 
       <div class="skill-group">
-        <div class="skill-group-title">Production & Tracking</div>
+        <div class="skill-group-title">Studio Tools</div>
         <div class="skill-chips">
-          <span class="skill-chip primary">Flow (ShotGrid)</span>
+          <span class="skill-chip primary">ShotGrid (Flow)</span>
+          <span class="skill-chip primary">Google Sheets</span>
           <span class="skill-chip primary">Coda</span>
-          <span class="skill-chip primary">Google Workspace</span>
-          <span class="skill-chip primary">Microsoft 365</span>
-          <span class="skill-chip primary">Pipeline Management</span>
           <span class="skill-chip">SyncSketch</span>
-          <span class="skill-chip">Sprint Planning</span>
-          <span class="skill-chip">Defect Tracking</span>
+          <span class="skill-chip">Maya</span>
+          <span class="skill-chip">Blender</span>
+          <span class="skill-chip">Adobe CC</span>
+          <span class="skill-chip">TVPaint</span>
+          <span class="skill-chip">Toon Boom Harmony</span>
+          <span class="skill-chip">Unreal Engine</span>
+          <span class="skill-chip">Unity</span>
         </div>
       </div>
 
       <div class="skill-group">
-        <div class="skill-group-title">Leadership & Communication</div>
+        <div class="skill-group-title">People & Languages</div>
         <div class="skill-chips">
-          <span class="skill-chip primary">Cross-team Coordination</span>
-          <span class="skill-chip primary">Stakeholder Management</span>
+          <span class="skill-chip primary">Training & Mentoring</span>
           <span class="skill-chip primary">Technical Documentation</span>
-          <span class="skill-chip primary">Strategic Planning</span>
+          <span class="skill-chip primary">Stakeholder Management</span>
+          <span class="skill-chip">Cross-team Coordination</span>
           <span class="skill-chip">Onboarding</span>
-          <span class="skill-chip">Risk Mitigation</span>
-          <span class="skill-chip">Conflict Resolution</span>
-        </div>
-      </div>
-
-      <div class="skill-group">
-        <div class="skill-group-title">Spoken Languages</div>
-        <div class="skill-chips">
-          <span class="skill-chip primary">Danish — Fluent</span>
-          <span class="skill-chip primary">English — Fluent</span>
-          <span class="skill-chip">Bosnian — Advanced</span>
-          <span class="skill-chip">German — Beginner</span>
+          <span class="skill-chip">Danish (native)</span>
+          <span class="skill-chip">English (fluent)</span>
+          <span class="skill-chip">Bosnian (conversational)</span>
+          <span class="skill-chip">German (basic)</span>
         </div>
       </div>
 
@@ -1602,7 +1595,7 @@
     <div class="contact-grid">
       <div>
         <div class="contact-text">
-          <p>Whether you've got a pipeline that needs untangling, a team that could use another pair of hands, or you just want to nerd out about animation tech — I'd genuinely love to hear from you. I'm always open to interesting conversations and new opportunities.</p>
+          <p>Want to talk about data, pipelines or animation tech? Send me a message here or find me on LinkedIn.</p>
         </div>
         <div class="contact-links">
           <a href="mailto:ademir.p@outlook.dk" class="contact-link">
@@ -1649,7 +1642,7 @@
 
 <!-- ── FOOTER ── -->
 <footer>
-  <span>© 2026 Ademir Pasalic. Made by hand, powered by coffee.</span>
+  <span>© 2026 Ademir Pasalic. Powered by coffee.</span>
   <span>
     <a href="mailto:ademir.p@outlook.dk">Email</a> · <a href="https://www.linkedin.com/in/ademir-pasalic/">LinkedIn</a>
   </span>
@@ -1659,7 +1652,7 @@
 <script src="https://web3forms.com/client/script.js" async defer></script>
 <script>
   var expanded = false;
-  var INITIAL_COUNT = 3;
+  var INITIAL_COUNT = 6;
 
   function filterProjects(client) {
     var cards = document.querySelectorAll('.project-card');
@@ -1763,6 +1756,29 @@
     }
   }, {threshold: 0.1});
   for (var i = 0; i < reveals.length; i++) observer.observe(reveals[i]);
+
+  // Start on Featured
+  (function() {
+    var cards = document.querySelectorAll('.project-card');
+    for (var i = 0; i < cards.length; i++) {
+      if (cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).indexOf('featured') === -1) {
+        cards[i].dataset.filteredOut = 'true';
+      }
+    }
+  })();
+
+  // Load the YouTube player only when a thumbnail is clicked
+  function playVideo(el) {
+    if (el.classList.contains('playing')) return;
+    el.classList.add('playing');
+    el.style.backgroundImage = 'none';
+    el.innerHTML = '<iframe src="https://www.youtube.com/embed/' + el.dataset.id + '?autoplay=1" allow="autoplay; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" title="YouTube video" allowfullscreen></iframe>';
+  }
+  var thumbs = document.querySelectorAll('.project-video.yt');
+  for (var i = 0; i < thumbs.length; i++) {
+    thumbs[i].addEventListener('click', function() { playVideo(this); });
+    thumbs[i].addEventListener('keydown', function(e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playVideo(this); } });
+  }
 
   applyVisibility();
 </script>
