@@ -823,7 +823,7 @@
     <img src="profile.png" alt="Ademir Pasalic" class="hero-photo">
     <div class="hero-stats">
       <div class="stat-card"><div class="stat-number">7+</div><div class="stat-label">Years in production</div></div>
-      <div class="stat-card"><div class="stat-number">58</div><div class="stat-label">Productions</div></div>
+      <div class="stat-card"><div class="stat-number" id="production-count">61</div><div class="stat-label">Productions</div></div>
       <div class="stat-card"><div class="stat-number">15+</div><div class="stat-label">Major clients</div></div>
     </div>
   </div>
@@ -1802,6 +1802,7 @@
   // Start on Featured
   (function() {
     var cards = document.querySelectorAll('.project-card');
+    document.getElementById('production-count').textContent = cards.length;
     for (var i = 0; i < cards.length; i++) {
       cards[i].dataset.order = i;
       if (cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).indexOf('featured') === -1) {
