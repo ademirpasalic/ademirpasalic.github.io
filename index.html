@@ -1646,6 +1646,7 @@
     for (var i = 0; i < btns.length; i++) btns[i].classList.remove('active');
     event.target.classList.add('active');
     expanded = false;
+    sortCards(client !== 'featured');
     for (var i = 0; i < cards.length; i++) {
       if (client === 'all' || cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).includes(client)) {
         delete cards[i].dataset.filteredOut;
@@ -1654,6 +1655,33 @@
       }
     }
     applyVisibility();
+  }
+
+  var MONTHS = ['january', 'february', 'march', 'april', 'may', 'june', 'july',
+                'august', 'september', 'october', 'november', 'december'];
+
+  // Turns a card's label ("Supercell | June 2026", "Series | 2022-2024") into a
+  // sortable YYYYMM number. Ranges use the last year; a year with no month
+  // counts as December of that year.
+  function cardDate(card) {
+    var label = card.querySelector('.project-type').textContent.toLowerCase();
+    var years = label.match(/\d{4}/g);
+    if (!years) return 0;
+    var month = 12;
+    for (var m = 0; m < MONTHS.length; m++) {
+      if (label.indexOf(MONTHS[m]) !== -1) { month = m + 1; break; }
+    }
+    return Number(years[years.length - 1]) * 100 + month;
+  }
+
+  // Newest first when byDate is true, otherwise the hand-picked order in the HTML.
+  function sortCards(byDate) {
+    var grid = document.querySelector('.projects-grid');
+    var cards = Array.prototype.slice.call(grid.querySelectorAll('.project-card'));
+    cards.sort(function(a, b) {
+      return (byDate ? cardDate(b) - cardDate(a) : 0) || (a.dataset.order - b.dataset.order);
+    });
+    for (var i = 0; i < cards.length; i++) grid.appendChild(cards[i]);
   }
 
   function applyVisibility() {
@@ -1750,6 +1778,7 @@
   (function() {
     var cards = document.querySelectorAll('.project-card');
     for (var i = 0; i < cards.length; i++) {
+      cards[i].dataset.order = i;
       if (cards[i].dataset.client.split(',').map(function(s) { return s.trim(); }).indexOf('featured') === -1) {
         cards[i].dataset.filteredOut = 'true';
       }
